@@ -14,22 +14,13 @@ namespace WebCards.Views
         private readonly ILogger<GameController> _logger;
         private readonly WebCarteContext _Context;
 
-        public GameController(ILogger<GameController> logger)
+        public GameController(ILogger<GameController> logger, WebCarteContext context)
         {
             _logger = logger;
             _Context = context;
         }
 
-        public IActionResult Game()
-        {
-
-            
-
-            return View();
-        }
-
-
-        public IActionResult Now()
+        public IActionResult New()
         {
             
 
@@ -47,16 +38,5 @@ namespace WebCards.Views
             return View();
         }
 
-        public IActionResult Partita()
-        {
-
-
-
-
-            return View();
-        }
-
-
-       
     }
 }
