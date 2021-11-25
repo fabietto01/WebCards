@@ -12,21 +12,33 @@ namespace WebCards.Views
     public class GameController : Controller
     {
         private readonly ILogger<GameController> _logger;
-        private readonly WebCarteContext _Context;
+        private readonly WebCarteContext _context;
 
         public GameController(ILogger<GameController> logger, WebCarteContext context)
         {
             _logger = logger;
-            _Context = context;
+            _context = context;
         }
 
-        public IActionResult New()
+        public IActionResult Game()
         {
             
-
-
-           //ciao test
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult New(Partite data)
+        {
+            //crea una nuova partita
+            var partia = new Partite()
+            {
+                Rowguid = Guid.NewGuid(),
+                Datatime = DateTime.Now,
+                NumeroGiocatori = data.NumeroGiocatori,
+            };
+            _context.Partites.Add(partia);
+            _context.SaveChanges();
+            return RedirectToAction("Game");
         }
 
         public IActionResult Load()

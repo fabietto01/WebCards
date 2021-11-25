@@ -1,8 +1,27 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+
+
+
+
+
+
+
+    @using (Html.BeginForm("Reset_db", "Home",  FormMethod.Post))
+    {
+        <label>premi qui per il reset dell database</label>
+        <br />
+        <input type="submit"  value="reseta" class="btn btn-success"/>
+    }
+
+
+
 </div>
