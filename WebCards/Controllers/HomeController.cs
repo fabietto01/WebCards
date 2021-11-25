@@ -20,6 +20,7 @@ namespace WebCards.Controllers
             _context = context;
         }
 
+
         public IActionResult Index()
         {
             return View();
