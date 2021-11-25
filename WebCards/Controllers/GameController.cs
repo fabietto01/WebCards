@@ -9,6 +9,7 @@ using WebCards.Models;
 
 namespace WebCards.Views
 {
+    // pippo la domenica
     public class GameController : Controller
     {
         private readonly ILogger<GameController> _logger;
