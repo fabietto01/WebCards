@@ -2,6 +2,7 @@
 {
     public class ResetDatabaseModel
     {
-        public bool Reset { get; set; }
+
+        public string Name { get; set; }
     }
 }
