@@ -7,6 +7,7 @@ namespace WebCards.Models
 {
     public partial class Mazzo
     {
+        //ciao
         public Guid CarteIdId { get; set; }
         public Guid PartitaId { get; set; }
 
