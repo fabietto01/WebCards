@@ -20,13 +20,20 @@ namespace WebCards.Views
             _Context = context;
         }
 
-        public IActionResult New()
+        public IActionResult Game()
         {
             
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult New(Partite partita)
+        {
+            var x = partita.NumeroGiocatori;
 
 
            //ciao test
-            return View();
+            return RedirectToAction("Game");
         }
 
         public IActionResult Load()
