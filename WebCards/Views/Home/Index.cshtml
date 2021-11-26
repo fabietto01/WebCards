@@ -3,23 +3,96 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @*
-        questo tasto e per risteare il db non eliminare perfavore
-        garzie
-    *@
-
-
-
-    @using (Html.BeginForm("Reset_db", "Home",  FormMethod.Post))
+<style>
+    button
     {
-        <label>premi qui per il reset dell database</label>
-        <br>
-        <input type="submit"  value="Ruba" class="btn btn-success"/>
+        color: white;
+        background-color: darkred;
+        text-align: center;
+        border: 1px solid black;
+        font-style: normal;
+        font-family: 'High Tower Text';
+        font-size: 14px;
     }
-    <br />
+
+    h3 
+    {
+        color: white;
+        text-align: right;
+        font-family: 'High Tower Text';
+    }
+
+    h2 
+    {
+        color: white;
+        text-align: right;
+        font-family: 'High Tower Text';
+    }
+
+    h1 
+    {
+        color: white;
+        text-align: center;
+        font-family: 'High Tower Text';
+    }
+
+    body 
+    {
+        background-color: #003300;
+    }
+
+    p 
+    {
+        color: black;
+        text-align: justify;
+        font-family: 'High Tower Text';
+    }
+
+    p2 
+    {
+        color: white;
+        text-align: justify;
+        font-family: 'High Tower Text';
+    }
+
+    ul 
+    {
+        color: white;
+        text-align: justify;
+        font-family: 'High Tower Text';
+    }
+</style>
+
+<div>
+    <br>
+    <h3 class="display-4">Benvenuti!</h3>
+    <h2>Questo è il progetto della quarta Academy</h2>
+    <br><br>
+
+
+    <p2>
+        Una partita di rubamazzetto che consente di giocare in due, tre o quattro persone. <br>Regole:<br>
+        Confrontando le carte nella mano, le regole prevedono che ogni giocatore,<br> durante il suo turno, possa fare solo una tra queste scelte:<br>
+        <ul>
+            <li>Rubare un mazzo di un altro giocatore;</li>
+            <li>Prendere una carta dal tavolo; </li>
+            <li>Scartare una propria carta sul tavolo.</li>
+        </ul>
+    </p2>
+</div>
+
+@*
+    questo tasto e per risteare il db non eliminare perfavore
+    garzie
+*@
+
+@using (Html.BeginForm("Reset_db", "Home", FormMethod.Post))
+{
+    <label>premi qui per il reset del database</label>
+    <br>
+    <input type="submit" value="Ruba" class="btn btn-success" />
+}
+<br />
 </div>
 
 

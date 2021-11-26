@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebCards</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Gioco</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,19 +19,61 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>*@
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Partita</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Game</a>
-                        </li>
+                      
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <style>
+
+        header 
+        {
+            background-color: #ffffff;
+            color: red;
+        }
+
+        footer 
+        {
+            background-color: #ffffff;
+        }
+
+        container 
+        {
+            color: white;
+        }
+
+        ul 
+        {
+            color: white;
+            text-align: justify;
+            font-family: 'High Tower Text';
+        }
+
+        p 
+        {
+            color: black;
+            text-align: justify;
+            font-family: 'High Tower Text';
+        }
+
+        body 
+        {
+            background-color: #003300;
+            color: black;
+        }
+
+        hr 
+        {
+            border-top: 4px solid darkred;
+        }
+    </style>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -40,7 +82,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - WebCards - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <p> Fabio Zorzetto ♠ Erika Zini ♠ Gabriele Simone ♠ Marco Mancuso ♠ Marco Vanolo ♠ Domenico Mancuso ♠ Simone Vabanesi </p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
