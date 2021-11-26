@@ -99,9 +99,9 @@ namespace WebCards.Models
 
             modelBuilder.Entity<InTavolo>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("in_tavolo");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CarteIdId)
                     .HasColumnName("carteId_id")
@@ -112,23 +112,23 @@ namespace WebCards.Models
                     .HasComment("relazione tra paritta e carte in tavola");
 
                 entity.HasOne(d => d.CarteId)
-                    .WithMany()
+                    .WithMany(p => p.InTavolos)
                     .HasForeignKey(d => d.CarteIdId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_scartate_carte");
+                    .HasConstraintName("FK_in_tavolo_carte");
 
                 entity.HasOne(d => d.Parita)
-                    .WithMany()
+                    .WithMany(p => p.InTavolos)
                     .HasForeignKey(d => d.ParitaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_scartate_partite");
+                    .HasConstraintName("FK_in_tavolo_partite");
             });
 
             modelBuilder.Entity<Mano>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("mano");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CartaId)
                     .HasColumnName("carta_id")
@@ -139,23 +139,23 @@ namespace WebCards.Models
                     .HasComment("relazione con giocatore");
 
                 entity.HasOne(d => d.Carta)
-                    .WithMany()
+                    .WithMany(p => p.Manos)
                     .HasForeignKey(d => d.CartaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_carte_coperte_carte");
+                    .HasConstraintName("FK_mano_carte");
 
                 entity.HasOne(d => d.Giocatore)
-                    .WithMany()
+                    .WithMany(p => p.Manos)
                     .HasForeignKey(d => d.GiocatoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_carte_coperte_giocatori");
+                    .HasConstraintName("FK_mano_giocatori");
             });
 
             modelBuilder.Entity<Mazzo>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("mazzo");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CarteIdId)
                     .HasColumnName("carteId_id")
@@ -165,24 +165,24 @@ namespace WebCards.Models
                     .HasColumnName("partita_id")
                     .HasComment("contiene la colerazione tra mazzo e partite");
 
-                entity.HasOne(d => d.Partita)
-                    .WithMany()
-                    .HasForeignKey(d => d.PartitaId)
+                entity.HasOne(d => d.CarteId)
+                    .WithMany(p => p.Mazzos)
+                    .HasForeignKey(d => d.CarteIdId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_da_pescare_carte");
+                    .HasConstraintName("FK_mazzo_carte");
 
-                entity.HasOne(d => d.PartitaNavigation)
-                    .WithMany()
+                entity.HasOne(d => d.Partita)
+                    .WithMany(p => p.Mazzos)
                     .HasForeignKey(d => d.PartitaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_da_pescare_partite");
+                    .HasConstraintName("FK_mazzo_partite");
             });
 
             modelBuilder.Entity<MazzoPersonale>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("mazzo_personale");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CartaId)
                     .HasColumnName("carta_id")
@@ -193,16 +193,16 @@ namespace WebCards.Models
                     .HasComment("relazione con giocatore");
 
                 entity.HasOne(d => d.Carta)
-                    .WithMany()
+                    .WithMany(p => p.MazzoPersonales)
                     .HasForeignKey(d => d.CartaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_carte_scoperte_carte");
+                    .HasConstraintName("FK_mazzo_personale_carte");
 
                 entity.HasOne(d => d.Giocatore)
-                    .WithMany()
+                    .WithMany(p => p.MazzoPersonales)
                     .HasForeignKey(d => d.GiocatoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_carte_scoperte_giocatori");
+                    .HasConstraintName("FK_mazzo_personale_giocatori");
             });
 
             modelBuilder.Entity<Partite>(entity =>

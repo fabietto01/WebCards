@@ -8,18 +8,8 @@
 
 @using (Html.BeginForm("Inizializa_giocatori", "Giocatori", FormMethod.Post))
     {
-        <ol>
-            @foreach(var giocatoe in Model.giocatori)
-            {
-                <li> 
-                @Html.Label("Name")  
-                @Html.TextBoxFor(m => giocatoe.Nome)
-                @Html.Label("IsBot")
-                @Html.CheckBoxFor(m => giocatoe.IsBot)
-                </li> 
-            }
-        </ol>
-        <button onclick="", class="btn btn-success"></button>
+        @Html.EditorFor(m=>m.giocatori)
+        <input type="submit"  value="crea giocatori" class="btn btn-success"/>
     }
 
 

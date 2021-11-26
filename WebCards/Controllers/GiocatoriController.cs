@@ -43,20 +43,19 @@ namespace WebCards.Controllers
 
         [HttpPost]
         [Route("Game/{id:Guid}/create")]
-        public IActionResult Inizializa_giocatori(Giocatori Model , Guid id)
+        public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
-            //foreach (var item in Model.giocatori)
-            //{
-            //    var g = new Giocatori
-            //    {
-            //        Rowguid = Guid.NewGuid(),
-            //        Nome = item.Nome,
-            //        IsBot = item.IsBot,
-            //        PartiatId = id
-            //    };
-            //    _context.Giocatoris.Add(g);
-            //}
-
+            foreach (var item in Model.giocatori)
+            {
+                var g = new Giocatori
+                {
+                    Rowguid = Guid.NewGuid(),
+                    Nome = item.Nome,
+                    IsBot = item.IsBot,
+                    PartiatId = id
+                };
+                _context.Giocatoris.Add(g);
+            }
             _context.SaveChanges();
             return Redirect($"Game/{id}/Inizilizate");
         }

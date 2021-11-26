@@ -7,6 +7,7 @@ namespace WebCards.Models
 {
     public partial class InTavolo
     {
+        public int Id { get; set; }
         public Guid CarteIdId { get; set; }
         public Guid ParitaId { get; set; }
 

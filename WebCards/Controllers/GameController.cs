@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCards.Models;
 
-namespace WebCards.Views
+namespace WebCards.Controllers
 {
 
     public class GameController : Controller
