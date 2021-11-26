@@ -6,13 +6,20 @@
 @{
 }
 
-@using (Html.BeginForm(null, null,  FormMethod.Post,  new { action = $"/Game/{ViewBag.id}/create"}))
+@using (Html.BeginForm("Inizializa_giocatori", "Giocatori", FormMethod.Post))
     {
-    @foreach(var giocatoe in Model.giocatori)
-    {
-        @Html.TextBoxFor(m => giocatoe.Nome)
-        @Html.CheckBoxFor(m => giocatoe.IsBot)
-        <br>
+        <ol>
+            @foreach(var giocatoe in Model.giocatori)
+            {
+                <li> 
+                @Html.Label("Name")  
+                @Html.TextBoxFor(m => giocatoe.Nome)
+                @Html.Label("IsBot")
+                @Html.CheckBoxFor(m => giocatoe.IsBot)
+                </li> 
+            }
+        </ol>
+        <button onclick="", class="btn btn-success"></button>
     }
-    <input type="submit"  value="crea giocatori" class="btn btn-success"/>
-    }
+
+
