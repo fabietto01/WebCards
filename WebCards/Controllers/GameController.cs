@@ -39,6 +39,9 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
+            
+
+
             return View();
         }
 
@@ -93,7 +96,7 @@ namespace WebCards.Controllers
             }
             _context.SaveChanges();
 
-            return Redirect($"Game/{id}");
+            return Redirect($"/Game/{id}");
         }
 
 
