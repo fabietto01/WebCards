@@ -3,3 +3,8 @@
 
 // Write your JavaScript code.
 
+function Inizializa_giocatori() {
+
+
+
+}

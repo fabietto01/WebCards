@@ -6,6 +6,5 @@ namespace WebCards.Models
     {
         public Giocatori[] giocatori { get; set; }
 
-         
     }
 }
