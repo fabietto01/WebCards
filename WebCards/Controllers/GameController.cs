@@ -31,6 +31,7 @@ namespace WebCards.Views
         public IActionResult New(Partite data)
         {
             //crea una nuova partita
+            Console.WriteLine(data);
             var partia = new Partite()
             {
                 Rowguid = Guid.NewGuid(),
@@ -38,6 +39,16 @@ namespace WebCards.Views
                 NumeroGiocatori = data.NumeroGiocatori,
             };
             _context.Partites.Add(partia);
+
+            var giocatori = new Giocatori()
+            {
+                Rowguid = Guid.NewGuid(),
+                PartiatId = partia.Rowguid, 
+                IsBot = "false"
+                
+            };
+
+            _context.Giocatoris.Add(giocatori);
             _context.SaveChanges();
             return RedirectToAction("Game");
         }
@@ -45,11 +56,7 @@ namespace WebCards.Views
         public IActionResult Load()
         {
 
-
-
-
             return View();
         }
-
     }
 }
