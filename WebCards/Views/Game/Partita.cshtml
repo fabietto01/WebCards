@@ -8,6 +8,17 @@
 }
 <div class="text-center">
     @Html.TextBoxFor(m => m.Rowguid) 
+
+    
+    <br />
+    <br />
+
+    @using (Html.BeginForm("DrawPlayerDeck", "Cards", FormMethod.Post))
+    {
+        <input type="submit"  value="reseta" class="btn btn-success"/>
+    }
+
+
 <div/>
  
 

@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebCards.Models.ArrayGiocatoriModel
+
+@{
+}
+
+@using (Html.BeginForm($"{ViewBag.id}" + "/create", "Game",  FormMethod.Post))
+    {
+    @foreach(var giocatoe in Model.giocatori)
+    {
+        @Html.TextBoxFor(m => giocatoe.Nome)
+        @Html.CheckBoxFor(m => giocatoe.IsBot)
+        <br>
+    }
+    <input type="submit"  value="crea giocatori" class="btn btn-success"/>
+    }
