@@ -10,7 +10,7 @@ namespace WebCards.Models
         public Guid Rowguid { get; set; }
         public string Nome { get; set; }
         public Guid PartiatId { get; set; }
-        public string IsBot { get; set; }
+        public bool? IsBot { get; set; }
 
         public virtual Partite Partiat { get; set; }
     }

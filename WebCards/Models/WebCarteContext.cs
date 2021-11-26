@@ -77,10 +77,8 @@ namespace WebCards.Models
                     .HasComment("ciave primaria di giocatori");
 
                 entity.Property(e => e.IsBot)
-                    .HasMaxLength(10)
                     .HasColumnName("is_bot")
-                    .HasDefaultValueSql("((0))")
-                    .IsFixedLength(true);
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Nome)
                     .IsRequired()
