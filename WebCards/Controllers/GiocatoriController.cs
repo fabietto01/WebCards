@@ -43,7 +43,7 @@ namespace WebCards.Controllers
 
         [HttpPost]
         [Route("Game/{id:Guid}/create")]
-        public IActionResult Inizializa_giocatori(Guid id, ArrayGiocatoriModel model)
+        public IActionResult Inizializa_giocatori(ArrayGiocatoriModel model, Guid id)
         {
             foreach (var item in model.giocatori)
             {

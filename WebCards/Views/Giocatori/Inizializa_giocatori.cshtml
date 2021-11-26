@@ -6,7 +6,7 @@
 @{
 }
 
-@using (Html.BeginForm($"{ViewBag.id}" + "/create", "Game",  FormMethod.Post))
+@using (Html.BeginForm(null, null,  FormMethod.Post,  new { action = $"/Game/{ViewBag.id}/create"}))
     {
     @foreach(var giocatoe in Model.giocatori)
     {
