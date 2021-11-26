@@ -57,7 +57,7 @@ namespace WebCards.Controllers
                 _context.Giocatoris.Add(g);
             }
             _context.SaveChanges();
-            return Redirect($"Game/{id}/Inizilizate");
+            return Redirect($"~/Game/{id}/Inizilizate");
         }
     }
 }
