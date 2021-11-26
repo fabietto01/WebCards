@@ -14,6 +14,10 @@ namespace WebCards.Controllers
         private readonly ILogger<HomeController> _logger;
         private WebCarteContext _context;
 
+
+        private List<string> seeds = new List<string> { "Bastoni", "Coppe", "Denari", "Spade" };
+        private List<string> values = new List<string> { "A", "2", "3", "4", "5", "6", "7", "F", "C", "R" };
+
         public HomeController(ILogger<HomeController> logger, WebCarteContext context)
         {
             _logger = logger;
@@ -78,6 +82,20 @@ namespace WebCards.Controllers
             foreach(var c in cartes)
             {
                 _context.Cartes.Remove(c);
+            }
+            _context.SaveChanges();
+            for (int i = 0; i < seeds.Count; i++)
+            {
+                for (int j = 0; j < values.Count; j++)
+                {
+                    var ca = new Carte()
+                    {
+                        Rowguid = Guid.NewGuid(),
+                        Seme = seeds[i],
+                        Valore = values[j],
+                    };
+                    _context.Cartes.Add(ca);
+                }
             }
             _context.SaveChanges();
             return RedirectToAction("Index");
