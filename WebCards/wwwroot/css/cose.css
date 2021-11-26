@@ -1,0 +1,73 @@
+﻿header {
+    background-color: #ffffff;
+    color: red;
+}
+
+footer {
+    background-color: #ffffff;
+}
+
+container {
+    color: white;
+}
+
+ul {
+    color: white;
+    text-align: justify;
+    font-family: 'High Tower Text';
+}
+
+p {
+    color: black;
+    text-align: justify;
+    font-family: 'High Tower Text';
+}
+
+body {
+    background-color: #003300;
+    color: black;
+}
+
+hr {
+    border-top: 4px solid darkred;
+}
+
+button {
+    color: white;
+    background-color: darkred;
+    text-align: center;
+    border: 1px solid black;
+    font-style: normal;
+    font-family: 'High Tower Text';
+    font-size: 14px;
+}
+
+h3 {
+    color: white;
+    text-align: right;
+    font-family: 'High Tower Text';
+}
+
+h2 {
+    color: white;
+    text-align: right;
+    font-family: 'High Tower Text';
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: 'High Tower Text';
+}
+
+body {
+    background-color: #003300;
+}
+
+p2 {
+    color: white;
+    text-align: justify;
+    font-family: 'High Tower Text';
+}
+
+
