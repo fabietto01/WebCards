@@ -57,20 +57,12 @@ namespace WebCards.Views
             {
                 Rowguid = Guid.NewGuid(),
                 PartiatId = partia.Rowguid, 
-                IsBot = "false"
-                
+                IsBot = false
             };
 
             _context.Giocatoris.Add(giocatori);
             _context.SaveChanges();
             return View(partia);
         }
-
-
-
-
-            return View();
-        }
-
     }
 }
