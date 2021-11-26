@@ -26,6 +26,8 @@ namespace WebCards.Controllers
             return View();
         }
 
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -80,13 +82,6 @@ namespace WebCards.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
