@@ -73,7 +73,7 @@ namespace WebCards.Controllers
         }
 
         [Route("Game/{idp:Guid}/{idg:Guid}")]
-        public IActionResult Partita(Guid idpm, Guid idg) 
+        public IActionResult Partita(Guid idp, Guid idg) 
         {
             var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
 
@@ -113,7 +113,11 @@ namespace WebCards.Controllers
                 _context.Mazzos.Add(maz);
             }
             _context.SaveChanges();
-            return Redirect($"/Game/{id}");
+
+
+            var giocatoreId = list_giocato.First().Rowguid;
+            
+            return Redirect($"/Game/{id}/{giocatoreId}");
         }
 
 
