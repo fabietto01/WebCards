@@ -43,7 +43,9 @@ namespace WebCards.Controllers
             return Redirect($"/Game/{idp}/{idg}");
         }
 
-        public IActionResult DrawTableCard(Partite partita, DrawTableCardModel drawTableCardModel)
+        [HttpPost]
+        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
+        public IActionResult DrawTableCard(Guid idp, Guid idg, DrawTableCardModel drawTableCardModel)
         {
             var tavolo = drawTableCardModel.Tavolo;
             var giocatoreAttuale = drawTableCardModel.GiocatoreAttuale;
@@ -59,10 +61,12 @@ namespace WebCards.Controllers
                 }
             }
             //return Redirect($"/Game/{id}/{giocatoreId}");
-            return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
+            return Redirect($"/Game/{idp}/{idg}");
         }
 
-        public IActionResult Discard(Partite partita, DiscardModel discardModel)
+        [HttpPost]
+        [Route("/Game/{idp:Guid}/{idg:Guid}/Discard")]
+        public IActionResult Discard(Guid idp, Guid idg, DiscardModel discardModel)
         {
             var tavolo = discardModel.Tavolo;
             var giocatoreAttuale = discardModel.GiocatoreAttuale;
@@ -83,7 +87,7 @@ namespace WebCards.Controllers
                 }
             }
             //return Redirect($"/Game/{id}/{giocatoreId}");
-            return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
+            return Redirect($"/Game/{idp}/{idg}");
         }
     }
 }

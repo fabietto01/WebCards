@@ -14,5 +14,7 @@ namespace WebCards.Models
         public DrawPlayerDeckModel DrawPlayerDeckModel {get; set;}
 
         public DrawTableCardModel DrawTableCardModel {get; set;}
+
+        public DiscardModel DiscardModel { get; set; }
     }
 }
