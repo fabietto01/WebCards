@@ -39,25 +39,23 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
-
-            
-
-
             ViewData["partite"] = _partite;
             return View();
         }
 
 
         [Route("Game/Delate/{id:Guid}")]
-        public IActionResult DeleteGame(Partite data)
+        public IActionResult DeleteGame(Guid id)
         {
-            //crea una nuova partita
-            
+            //elimina una partita
+            var partita = (from pa in _partite
+                          where pa.Rowguid == id
+                          select pa).First();
+            partita.svuota_colerazione(_context);
+            _context.Partites.Remove(partita);
+            _context.SaveChanges();
             return Redirect("/Game");
         }
-
-
-
 
         [HttpPost]
         public IActionResult Index(Partite data)
