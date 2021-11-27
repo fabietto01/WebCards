@@ -59,7 +59,7 @@ namespace WebCards.Controllers
             return Redirect($"Game/{partia.Rowguid}/create");
         }
 
-        [Route("Game/Delate/{id:Guid}")]
+        [Route("/Game/Delete/{id:Guid}")]
         public IActionResult DeleteGame(Guid id)
         {
             //elimina una partita
@@ -78,10 +78,15 @@ namespace WebCards.Controllers
             var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
             var player = (from pa in _partite
                           join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
-                          where gi.Rowguid == idg
+                          where gi.Rowguid == idg && pa.Rowguid == idp
                           select gi).FirstOrDefault();
+            var player_aversari = (from pa in _partite
+                                   join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
+                                   where gi.Rowguid != idg && pa.Rowguid == idp
+                                   select gi).ToList();
             ViewData["player"] = player;
             ViewData["partita"] = partita;
+            ViewData["player_aversari"] = player_aversari;
             return View(); 
         }
             
@@ -116,8 +121,7 @@ namespace WebCards.Controllers
                 _context.Mazzos.Add(maz);
             }
             _context.SaveChanges();
-            var giocatoreId = list_giocato.Last().Rowguid;
-            
+            var giocatoreId = list_giocato.First().Rowguid;
             return Redirect($"/Game/{id}/{giocatoreId}");
         }
 
