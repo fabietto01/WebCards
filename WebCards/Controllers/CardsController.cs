@@ -61,7 +61,24 @@ namespace WebCards.Controllers
 
         public IActionResult Discard(Partite partita, DiscardModel discardModel, WebCarteContext context)
         {
-
+            var tavolo = discardModel.Tavolo;
+            var giocatoreAttuale = discardModel.GiocatoreAttuale;
+            bool discardPossible = false;
+            //tabel.CarteId.InTavolos.Add(giocatoreAttuale.SpostaCarta(,context))
+            for(int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+            {
+                for(int j = 0; j < tavolo.CarteId.Manos.Count; j++)
+                {
+                    if(giocatoreAttuale.Manos.ElementAt(i).Carta.Valore != tavolo.CarteId.InTavolos.ElementAt(j).CarteId.Valore)
+                    {
+                        discardPossible = true;
+                    }
+                }
+                if (discardPossible)
+                {
+                    tavolo.AddCardOnTable(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                }
+            }
             return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
     }
