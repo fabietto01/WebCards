@@ -76,10 +76,13 @@ namespace WebCards.Controllers
         public IActionResult Partita(Guid idp, Guid idg) 
         {
             var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
-
-
-
-            return View(partita); 
+            var player = (from pa in _partite
+                          join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
+                          where gi.Rowguid == idg
+                          select gi).FirstOrDefault();
+            ViewData["player"] = player;
+            ViewData["partita"] = partita;
+            return View(); 
         }
             
 
@@ -113,9 +116,7 @@ namespace WebCards.Controllers
                 _context.Mazzos.Add(maz);
             }
             _context.SaveChanges();
-
-
-            var giocatoreId = list_giocato.First().Rowguid;
+            var giocatoreId = list_giocato.Last().Rowguid;
             
             return Redirect($"/Game/{id}/{giocatoreId}");
         }
