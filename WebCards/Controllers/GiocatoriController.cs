@@ -29,7 +29,7 @@ namespace WebCards.Controllers
             _context = context;
         }
 
-        [Route("Game/{id:Guid}/create")]
+        [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(Guid id)
         {
             var nuermo_giocatori = (_partite).FirstOrDefault(m => m.Rowguid == id).NumeroGiocatori;
@@ -42,9 +42,10 @@ namespace WebCards.Controllers
         }
 
         [HttpPost]
-        [Route("Game/{id:Guid}/create")]
+        [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
+            byte x = 0;
             foreach (var item in Model.giocatori)
             {
                 var g = new Giocatori
@@ -52,9 +53,11 @@ namespace WebCards.Controllers
                     Rowguid = Guid.NewGuid(),
                     Nome = item.Nome,
                     IsBot = item.IsBot,
-                    PartiatId = id
+                    PartiatId = id,
+                    Numero = x
                 };
                 _context.Giocatoris.Add(g);
+                x++;
             }
             _context.SaveChanges();
             return Redirect($"/Game/{id}/Inizilizate");
