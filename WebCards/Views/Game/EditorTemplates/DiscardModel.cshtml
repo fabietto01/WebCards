@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebCards.Models.DiscardModel
+
+
+@{
+    var partita = ViewData["partita"] as Partite;
+    var player = ViewData["player"] as Giocatori;
+    List<SelectListItem> listCarteItems= new List<SelectListItem>();
+    foreach(var item in player.Manos)
+    {
+        listCarteItems.Add(new SelectListItem
+            {
+              Text = $"{item}",
+              Value = $"{item.CartaId}"
+            });
+    }
+}
+
+
+<div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new {action = $"/Game/{partita.Rowguid}/{player.Rowguid}/Discard" }))
+    {
+        <label>Carta da scartarte</label>
+        @Html.DropDownListFor(m => m.CartaScelta, 
+                                listCarteItems, 
+                                "Seleziona carta")
+        <input type="submit" value="scarta">
+    }
+</div>

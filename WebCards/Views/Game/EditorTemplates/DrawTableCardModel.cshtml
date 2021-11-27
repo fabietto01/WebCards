@@ -9,18 +9,38 @@
 @{
     var partita = ViewData["partita"] as Partite;
     var player = ViewData["player"] as Giocatori;
+
+    List<SelectListItem> listCarteTavoloItems= new List<SelectListItem>();
+    foreach(var item in partita.InTavolos)
+    {
+        listCarteTavoloItems.Add(new SelectListItem
+        {
+            Text = $"{item}",
+            Value = $"{item.CarteIdId}"
+        });
+    }
+    List<SelectListItem> listCarteItems= new List<SelectListItem>();
+    foreach(var item in player.Manos)
+    {
+        listCarteItems.Add(new SelectListItem
+            {
+              Text = $"{item}",
+              Value = $"{item.CartaId}"
+            });
+    }
+
 }
 
 <div>
     @using (Html.BeginForm(null, null, FormMethod.Post, new {action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawTableCardModel" }))
     {
         <label>prendi carta</label>
-        @Html.DropDownListFor(m => m.Tavolo, 
-                                new SelectList(partita.InTavolos), 
+        @Html.DropDownListFor(m => m.CartaSceltaIntavola, 
+                                listCarteTavoloItems, 
                                 "Seleziona carta sul tavolo")
         <label>con</label>
-        @Html.DropDownListFor(m => m.CartaScelta,
-                                new SelectList(player.Manos),
+        @Html.DropDownListFor(m => m.CartaSceltaMano,
+                                listCarteItems,
                                 "Seleziona la carta")
         <input type="submit" value="prendi carta">
     }
