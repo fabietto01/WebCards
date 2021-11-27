@@ -2,20 +2,55 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@model WebCards.Models.Partite
-
 @{
+    ViewData["Title"] = "partita";
+    var player = ViewData["player"] as Giocatori;
+    var partita = ViewData["partita"] as Partite;
+
+
+
+
+
+
+
 }
 <div class="text-center">
-    @Html.TextBoxFor(m => m.Rowguid) 
-
+    
     
     <br />
     <br />
 
+
+
+
+
+
+
+
+
+    <div id="player-@player.Nome">
+        <h1>@player.Nome</h1>
+        <div id="carte_player">
+            @foreach(var carta in player.Manos)
+            {
+                <p>@carta.Carta.Valore;/@carta.Carta.Seme; - </p>
+            }
+        </div>
+        <div id="carta_scoperte">
+            <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
+            <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+        </div>
+
+
+    </div>
+
+
+
+
+
     @using (Html.BeginForm("DrawPlayerDeck", "Cards", FormMethod.Post))
     {
-        <input type="submit"  value="reseta" class="btn btn-success"/>
+        <input type="submit"  value="ruba" class="btn btn-success"/>
     }
 
 

@@ -39,25 +39,9 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
-
-            
-
-
             ViewData["partite"] = _partite;
             return View();
         }
-
-
-        [Route("Game/Delate/{id:Guid}")]
-        public IActionResult DeleteGame(Partite data)
-        {
-            //crea una nuova partita
-            
-            return Redirect("/Game");
-        }
-
-
-
 
         [HttpPost]
         public IActionResult Index(Partite data)
@@ -75,9 +59,32 @@ namespace WebCards.Controllers
             return Redirect($"Game/{partia.Rowguid}/create");
         }
 
-        [Route("Game/{id:Guid}")]
-        public IActionResult Partita(Guid id) =>
-            View(_partite.FirstOrDefault(m => m.Rowguid == id));
+        [Route("Game/Delate/{id:Guid}")]
+        public IActionResult DeleteGame(Guid id)
+        {
+            //elimina una partita
+            var partita = (from pa in _partite
+                           where pa.Rowguid == id
+                           select pa).First();
+            partita.svuota_colerazione(_context);
+            _context.Partites.Remove(partita);
+            _context.SaveChanges();
+            return Redirect("/Game");
+        }
+
+        [Route("Game/{idp:Guid}/{idg:Guid}")]
+        public IActionResult Partita(Guid idp, Guid idg) 
+        {
+            var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
+            var player = (from pa in _partite
+                          join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
+                          where gi.Rowguid == idg
+                          select gi).FirstOrDefault();
+            ViewData["player"] = player;
+            ViewData["partita"] = partita;
+            return View(); 
+        }
+            
 
         [Route("Game/{id:Guid}/Inizilizate")]
         public IActionResult Inizilizate(Guid id)
@@ -109,7 +116,9 @@ namespace WebCards.Controllers
                 _context.Mazzos.Add(maz);
             }
             _context.SaveChanges();
-            return Redirect($"/Game/{id}");
+            var giocatoreId = list_giocato.Last().Rowguid;
+            
+            return Redirect($"/Game/{id}/{giocatoreId}");
         }
 
 

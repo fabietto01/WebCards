@@ -39,6 +39,7 @@ input[type=submit] {
     border: 1px solid black;
     font-style: normal;
     font-family: 'High Tower Text';
+    /*secondo font da decidere*/
     font-size: 14px;
 }
 
@@ -46,18 +47,21 @@ h3 {
     color: white;
     text-align: right;
     font-family: 'High Tower Text';
+    /*secondo font da decidere*/
 }
 
 h2 {
     color: white;
     text-align: right;
     font-family: 'High Tower Text';
+    /*secondo font da decidere*/
 }
 
 h1 {
     color: white;
     text-align: center;
     font-family: 'High Tower Text';
+    /*secondo font da decidere*/
 }
 
 body {
@@ -68,6 +72,23 @@ p2 {
     color: white;
     text-align: justify;
     font-family: 'High Tower Text';
+    /*secondo font da decidere*/
 }
+
+label {
+    color: white;
+    font-family: 'High Tower Text';
+    /*secondo font da decidere*/
+    font-size: 16px;
+}
+
+
+table, th, td {
+    border: 1px solid #e6e600;
+    color: white;
+}
+
+
+
 
 

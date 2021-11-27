@@ -4,33 +4,50 @@
 @model WebCards.Models.Partite
 
 @{
-    ViewData["Title"] = "Game";
+    ViewData["Title"] = "Partita";
     
 }
 
+<br />
+<br />
+<br />
+
+<h2 style="text-align:center">♠ Nuova partita ♠</h2>
+<br />
 <div class="text-center">
-    @using (Html.BeginForm("Index", "Game",  FormMethod.Post))
+    @using (Html.BeginForm("Index", "Game", FormMethod.Post))
     {
-        <label>crea un nuova partita</label>
+        <label>Inserisci numero giocatori</label>
         @Html.TextBoxFor(m => m.NumeroGiocatori)
         <br>
-        <input type="submit"  value="creat"/>
+        <input type="submit" value="Create" />
     }
-    
 
-    <table>
-        @foreach(var pa in ViewData["partite"] as IQueryable<Partite>)
-        {
-            <tr>
-                <td>
-                @pa.Rowguid
-                </td>
-                <td>
-                @Html.ActionLink("Elimia", "Delate",  new {  id=pa.Rowguid  })
-                </td>
-            </tr>
-        }
-    </table>
+    <br />
+    <center>
+        <h2 style="text-align:center">♠ Continua partita ♠</h2>
+        <br /> 
+
+        <table style="width:100%">
+            @foreach (var pa in ViewData["partite"] as IQueryable<Partite>)
+            {
+                <tr>
+                    <th>@pa.Datatime.ToShortDateString()</th>
+                    <th>@pa.Rowguid</th>
+
+                    @*@pa.Rowguid*@
+
+
+                    <td>
+                        @Html.ActionLink("Elimina", "Delete", new { id = pa.Rowguid })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Carica", "Partita", new { id = pa.Rowguid })
+                    </td>
+                </tr>
+            }
+        </table>
+    </center>
 
 
 

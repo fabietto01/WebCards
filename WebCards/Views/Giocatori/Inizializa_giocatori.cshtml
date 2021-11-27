@@ -4,12 +4,14 @@
 @model WebCards.Models.ArrayGiocatoriModel
 
 @{
+    ViewData["Title"] = "dati giocatori";
+
 }
 
 @using (Html.BeginForm("Inizializa_giocatori", "Giocatori", FormMethod.Post))
     {
         @Html.EditorFor(m=>m.giocatori)
-        <input type="submit"  value="crea giocatori" class="btn btn-success"/>
+        <input type="submit"  value="Crea giocatori" />
     }
 
 
