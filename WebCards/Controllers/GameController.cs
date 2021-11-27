@@ -53,6 +53,7 @@ namespace WebCards.Controllers
                 Rowguid = Guid.NewGuid(),
                 Datatime = DateTime.Now,
                 NumeroGiocatori = data.NumeroGiocatori,
+
             };
             _context.Partites.Add(partia);
             _context.SaveChanges();
@@ -100,6 +101,7 @@ namespace WebCards.Controllers
             mazzo = mazzo.OrderBy(x => rand.Next()).ToList();
             var list_giocato = (from gi in _context.Giocatoris
                                 where gi.PartiatId == id
+                                orderby gi.Numero 
                                 select gi).ToList();
             for (int i = 0; i < (list_giocato.Count * 3);)
             {

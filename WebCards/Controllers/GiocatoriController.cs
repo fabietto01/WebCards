@@ -45,6 +45,7 @@ namespace WebCards.Controllers
         [Route("Game/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
+            byte x = 0;
             foreach (var item in Model.giocatori)
             {
                 var g = new Giocatori
@@ -52,9 +53,11 @@ namespace WebCards.Controllers
                     Rowguid = Guid.NewGuid(),
                     Nome = item.Nome,
                     IsBot = item.IsBot,
-                    PartiatId = id
+                    PartiatId = id,
+                    Numero = x
                 };
                 _context.Giocatoris.Add(g);
+                x++;
             }
             _context.SaveChanges();
             return Redirect($"/Game/{id}/Inizilizate");
