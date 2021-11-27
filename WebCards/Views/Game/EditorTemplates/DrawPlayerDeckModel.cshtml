@@ -29,20 +29,21 @@
     }
 }
 
-<div class="text-basso">
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="text-mossegiocatore">
+    <body1>
+
     @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawPlayerDeck" }))
     {
-        <label>giocatore derubato</label>
+        <label>Ruba mazzetto di </label>
         @Html.DropDownListFor(m => m.GiocatoriDerubato,
                               listGiocatoriAversariItems,
-                              "Selezione giocatroe")
-        <label>con quelle carta</label>
+                              "nome giocatore")
+        <label>con </label>
         @Html.DropDownListFor(m => m.CartaScelta,
                               listCarteItems,
-                              "Selezione giocatroe")
-        <input type="submit" value="ruba mazzo" />
+                              "carta mano giocatore")
+        <input type="submit" value="ruba" />
     }
 
-
+    </body1>
 </div>
