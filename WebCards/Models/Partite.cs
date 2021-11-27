@@ -16,6 +16,7 @@ namespace WebCards.Models
 
         public Guid Rowguid { get; set; }
         public DateTime Datatime { get; set; }
+        public bool Inizializata { get; set; }
         public bool Finita { get; set; }
         public byte NumeroGiocatori { get; set; }
         public string Url { get; set; }

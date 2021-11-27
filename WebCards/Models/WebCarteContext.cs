@@ -86,6 +86,8 @@ namespace WebCards.Models
                     .HasColumnName("nome")
                     .HasComment("contiene il nome del giocatore");
 
+                entity.Property(e => e.Numero).HasColumnName("numero");
+
                 entity.Property(e => e.PartiatId)
                     .HasColumnName("partiat_id")
                     .HasComment("contiene la relazione tra giocatore e partita");
@@ -224,6 +226,8 @@ namespace WebCards.Models
                 entity.Property(e => e.Finita)
                     .HasColumnName("finita")
                     .HasComment("e un bool che tine in memoria lo stato di fine cartita");
+
+                entity.Property(e => e.Inizializata).HasColumnName("inizializata");
 
                 entity.Property(e => e.NumeroGiocatori)
                     .HasColumnName("numero_giocatori")

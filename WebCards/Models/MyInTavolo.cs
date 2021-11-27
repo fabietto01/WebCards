@@ -13,7 +13,7 @@ namespace WebCards.Models
     {
         public void AddCardOnTable(Carte carta, WebCarteContext context)
         {
-            var tavolo = new InTavolo { CarteIdId = Rowguid, };
+            //var tavolo = new InTavolo { CarteIdId = Rowguid, };
 
 
         }
