@@ -41,7 +41,6 @@ namespace WebCards.Controllers
                 }
             }
             return Redirect($"/Game/{idp}/{idg}");
-
         }
 
         public IActionResult DrawTableCard(Partite partita, DrawTableCardModel drawTableCardModel)
