@@ -41,14 +41,28 @@ namespace WebCards.Controllers
             return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
 
-        public IActionResult DrawTableCard(Partite partita)
+        public IActionResult DrawTableCard(Partite partita, DrawTableCardModel drawTableCardModel, WebCarteContext context)
         {
-            return View();
+            var tavolo = drawTableCardModel.Tavolo;
+            var giocatoreAttuale = drawTableCardModel.GiocatoreAttuale;
+            for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+            {
+                for (int j = 0; j < tavolo.CarteId.Manos.Count; j++)
+                {
+                    if (giocatoreAttuale.Manos.ElementAt(i).Carta.Valore == tavolo.CarteId.InTavolos.ElementAt(j).CarteId.Valore)
+                    {
+                        giocatoreAttuale.SpostaCarta(tavolo.CarteId.Manos.ElementAt(j).Carta, context);
+                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                    }
+                }
+            }
+            return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
 
-        public IActionResult Discard(Partite partita)
+        public IActionResult Discard(Partite partita, DiscardModel discardModel, WebCarteContext context)
         {
-            return View();
+
+            return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
     }
 }
