@@ -9,8 +9,9 @@ using WebCards.Models;
 
 namespace WebCards.Models
 {
-    public class ArrayGiocatoriModel
+    public class IndexGameModel
     {
-        public Giocatori[] giocatori { get; set; }
+        public IQueryable<Partite> partite { get; set; }
+        public Partite partita { get; set; }
     }
 }
