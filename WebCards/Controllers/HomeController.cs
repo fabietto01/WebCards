@@ -27,6 +27,7 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
+            var cookieValue = Request.Cookies;
             return View();
         }
 

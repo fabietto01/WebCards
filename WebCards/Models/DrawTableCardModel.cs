@@ -8,6 +8,8 @@ namespace WebCards.Models
 
         public Giocatori GiocatoreAttuale { get; set; }
 
+        public Carte CartaScelta { get; set; }
+
         public InTavolo Tavolo { get; set; }
 
     }
