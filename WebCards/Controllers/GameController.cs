@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,6 @@ using WebCards.Models;
 
 namespace WebCards.Controllers
 {
-
     public class GameController : Controller
     {
         private readonly ILogger<GameController> _logger;
@@ -39,6 +39,10 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
+            var cookieValue = Request.Cookies;
+
+
+
             ViewData["partite"] = _partite;
             return View();
         }
@@ -92,6 +96,11 @@ namespace WebCards.Controllers
             }
             _context.SaveChanges();
             var giocatoreId = list_giocato.First().Rowguid;
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(30),
+                HttpOnly = true,
+            };
             return Redirect($"/Game/{id}/{giocatoreId}");
         }
 

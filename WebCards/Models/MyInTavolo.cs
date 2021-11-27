@@ -28,5 +28,10 @@ namespace WebCards.Models
 
             context.SaveChanges();
         }
+
+        public override string ToString()
+        {
+            return CarteId.ToString();
+        }
     }
 }
