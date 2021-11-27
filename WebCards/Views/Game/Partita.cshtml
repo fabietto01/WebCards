@@ -6,7 +6,7 @@
     ViewData["Title"] = "partita";
     var player = ViewData["player"] as Giocatori;
     var partita = ViewData["partita"] as Partite;
-
+    var player_aversari = ViewData["player_aversari"] as List<Giocatori>;
 
 
 
@@ -15,10 +15,31 @@
 
 }
 <div class="text-center">
+    <div id="play-aversari">
+        @foreach(var item in player_aversari)
+        {
+            <div id="player-@item.Nome">
+                <h1>@item.Nome</h1>
+                <div id="carte_player">
+                        @foreach(var carta in item.Manos)
+                        {
+                            <p>N/D</p>
+                        }
+                </div>
+                <div id="carta_scoperte">
+
+                    @try
+                    {
+                        <p>a @item.MazzoPersonales.Count() carte nel suo mazzo</p>
+                        <p>@item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</p>
+                    }catch(InvalidOperationException){
+                    }
+                </div>
+            </div>
+        }
+    </div>
     
     
-    <br />
-    <br />
 
 
 
@@ -31,17 +52,21 @@
     <div id="player-@player.Nome">
         <h1>@player.Nome</h1>
         <div id="carte_player">
-            @foreach(var carta in player.Manos)
-            {
-                <p>@carta.Carta.Valore;/@carta.Carta.Seme; - </p>
-            }
+            <p>
+                @foreach(var carta in player.Manos)
+                {
+                    <p>@carta.Carta.Valore;/@carta.Carta.Seme; - </p>
+                }
+            </p>
         </div>
         <div id="carta_scoperte">
-            <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
-            <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+            @try
+            {
+                <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
+                <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+            }catch(InvalidOperationException){
+            }
         </div>
-
-
     </div>
 
 
