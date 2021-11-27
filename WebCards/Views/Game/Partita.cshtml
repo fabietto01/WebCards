@@ -5,6 +5,15 @@
 @model WebCards.Models.Partite
 
 @{
+    ViewData["Title"] = "partita";
+
+
+
+
+
+
+
+
 }
 <div class="text-center">
     @Html.TextBoxFor(m => m.Rowguid) 
@@ -12,6 +21,15 @@
     
     <br />
     <br />
+
+
+
+
+
+
+
+
+
 
     @using (Html.BeginForm("DrawPlayerDeck", "Cards", FormMethod.Post))
     {

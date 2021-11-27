@@ -43,20 +43,6 @@ namespace WebCards.Controllers
             return View();
         }
 
-
-        [Route("Game/Delate/{id:Guid}")]
-        public IActionResult DeleteGame(Guid id)
-        {
-            //elimina una partita
-            var partita = (from pa in _partite
-                          where pa.Rowguid == id
-                          select pa).First();
-            partita.svuota_colerazione(_context);
-            _context.Partites.Remove(partita);
-            _context.SaveChanges();
-            return Redirect("/Game");
-        }
-
         [HttpPost]
         public IActionResult Index(Partite data)
         {
@@ -73,9 +59,29 @@ namespace WebCards.Controllers
             return Redirect($"Game/{partia.Rowguid}/create");
         }
 
-        [Route("Game/{id:Guid}")]
-        public IActionResult Partita(Guid id) =>
-            View(_partite.FirstOrDefault(m => m.Rowguid == id));
+        [Route("Game/Delate/{id:Guid}")]
+        public IActionResult DeleteGame(Guid id)
+        {
+            //elimina una partita
+            var partita = (from pa in _partite
+                           where pa.Rowguid == id
+                           select pa).First();
+            partita.svuota_colerazione(_context);
+            _context.Partites.Remove(partita);
+            _context.SaveChanges();
+            return Redirect("/Game");
+        }
+
+        [Route("Game/{idp:Guid}/{idg:Guid}")]
+        public IActionResult Partita(Guid idpm, Guid idg) 
+        {
+            var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
+
+
+
+            return View(partita); 
+        }
+            
 
         [Route("Game/{id:Guid}/Inizilizate")]
         public IActionResult Inizilizate(Guid id)

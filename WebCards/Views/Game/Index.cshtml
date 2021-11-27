@@ -4,14 +4,14 @@
 @model WebCards.Models.Partite
 
 @{
-    ViewData["Title"] = "Game";
+    ViewData["Title"] = "Partita";
     
 }
 
 <div class="text-center">
     @using (Html.BeginForm("Index", "Game",  FormMethod.Post))
     {
-        <label>crea un nuova partita</label>
+        <label>inserisci numero giocatorio</label>
         @Html.TextBoxFor(m => m.NumeroGiocatori)
         <br>
         <input type="submit"  value="creat"/>
