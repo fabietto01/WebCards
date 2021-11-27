@@ -30,7 +30,6 @@ namespace WebCards.Controllers
                 {
                     if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
                     {
-                        //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
                         giocatoreAttuale.Ruba(giocatoreDerubato, context);
                         giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
                         giocatoreDerubato.MazzoPersonales.Clear();
