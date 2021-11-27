@@ -20,8 +20,24 @@ namespace WebCards.Controllers
             _context = context;
         }
 
-        public IActionResult DrawPlayerDeck(Partite partita)
+        public IActionResult DrawPlayerDeck(Partite partita, DrawPlayerDeckModel drawPlayerDeckModel, WebCarteContext context)
         {
+            var giocatoreAttuale = drawPlayerDeckModel.GiocatoreAttuale;
+            var giocatoreDerubato = drawPlayerDeckModel.GiocatoriDerubato;
+            if (giocatoreAttuale != giocatoreDerubato)
+            {
+                for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+                {
+                    if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
+                    {
+                        //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
+                        giocatoreAttuale.Ruba(giocatoreDerubato, context);
+                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                        giocatoreDerubato.MazzoPersonales.Clear();
+                    }
+                }
+            }
+
             return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
 
