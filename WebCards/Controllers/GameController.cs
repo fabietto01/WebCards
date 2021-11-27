@@ -67,10 +67,12 @@ namespace WebCards.Controllers
         [Route("Game/{id:Guid}/Inizilizate")]
         public IActionResult Inizilizate(Guid id)
         {
+            //prendo e miscio io mazzo
             var mazzo = (from cc in _context.Cartes
                          select cc).ToList();
             Random rand = new Random();
             mazzo = mazzo.OrderBy(x => rand.Next()).ToList();
+            //distribuisco carde hai giocatori
             var list_giocato = (from gi in _context.Giocatoris
                                 where gi.PartiatId == id
                                 orderby gi.Numero
@@ -85,6 +87,17 @@ namespace WebCards.Controllers
                 }
             }
             _context.SaveChanges();
+            for (int i = 0; i < 3 ; i++)
+            {
+                var intavolo = new InTavolo
+                {
+                    CarteIdId = mazzo.First().Rowguid,
+                    ParitaId = id
+                };
+                _context.InTavolos.Add(intavolo);
+                mazzo.RemoveAt(0);
+            }
+            //aggioco carte al mazzo
             foreach (var item in mazzo)
             {
                 var maz = new Mazzo

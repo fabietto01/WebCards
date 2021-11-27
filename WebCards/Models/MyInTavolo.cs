@@ -11,24 +11,6 @@ namespace WebCards.Models
 {
     public partial class InTavolo
     {
-        public void AddCardOnTable(Carte carta, WebCarteContext context)
-        {
-            var mazzo = new MazzoPersonale
-            {
-                CartaId = carta.Rowguid,               
-            };
-
-            context.MazzoPersonales.Add(mazzo);
-
-            var mano = (from m in context.Manos
-                        where m.CartaId == carta.Rowguid
-                        select m).First();
-
-            context.Manos.Remove(mano);
-
-            context.SaveChanges();
-        }
-
         public override string ToString()
         {
             return CarteId.ToString();

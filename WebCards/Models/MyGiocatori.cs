@@ -56,6 +56,23 @@ namespace WebCards.Models
             context.SaveChanges();
         }
 
+        public void Scarta(Carte carta, WebCarteContext context)
+        {
+            var intavolo = new InTavolo
+            {
+                CarteIdId = carta.Rowguid,
+                ParitaId = PartiatId,
+            };
+            context.InTavolos.Add(intavolo);
+            var mano = new Mano
+            {
+                CartaId = carta.Rowguid,
+                GiocatoreId = Rowguid
+            };
+            context.Manos.Remove(mano);
+        }
+
+
         public override string ToString()
         {
             return Nome;

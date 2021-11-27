@@ -25,8 +25,8 @@ namespace WebCards.Controllers
         [Route("/Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
         public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
         {
-            var giocatoreAttuale = drawPlayerDeckModel.GiocatoreAttuale;
-            var giocatoreDerubato = drawPlayerDeckModel.GiocatoriDerubato;
+            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+            var giocatoreDerubato = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.GiocatoriDerubato));
             if (giocatoreAttuale != giocatoreDerubato)
             {
                 for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
@@ -83,7 +83,8 @@ namespace WebCards.Controllers
                 }
                 if (discardPossible)
                 {
-                    tavolo.AddCardOnTable(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
+                    giocatoreAttuale.Scarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
+                    //alimina carta dalla mano 
                 }
             }
             //return Redirect($"/Game/{id}/{giocatoreId}");
