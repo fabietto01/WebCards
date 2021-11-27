@@ -24,7 +24,7 @@
                     <p4>Mano giocatore</p4>
                     @foreach (var carta in item.Manos)
                     {
-                        @Html.Display("Carta coperta |")
+                        <p>Carta coperta</p>
                     }
                 </div>
 
@@ -33,7 +33,7 @@
 
                     @try
                     {
-                        <p>(@item.MazzoPersonales.Count() Carte nel mazzetto)</p>
+                        <p>(@item.MazzoPersonales.Count() Carte nel mazzetto</p>
                         <p>@item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</p>
                     }
                     catch (InvalidOperationException)
