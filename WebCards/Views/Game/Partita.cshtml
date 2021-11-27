@@ -44,23 +44,21 @@
         </div>
         }
     </div>
+
+
+
     <div id="player-@player.Nome">
+        <div class="left">
 
-    </div>
-    <div class="left">
-
-        <h1>@player.Nome</h1>
-        <div id="carte_player">
-            <p>
-                @foreach (var carta in player.Manos)
-                {
-                <p>@carta.ToString() - </p>
-            }
+            <h1>@player.Nome</h1>
+            <div id="carte_player">
+                <p>
+                    @foreach (var carta in player.Manos)
+                    {
+                    <p>@carta.ToString() - </p>
+                    }
                 </p>
             </div>
-
-
-
             <div id="carta_scoperte">
                 @try
                 {
@@ -71,12 +69,14 @@
                 {
                 }
             </div>
+        </div>
+        
 
         </div>  
             @Html.EditorFor(m=>m.DrawPlayerDeckModel, null, "", null)
             @Html.EditorFor(m=>m.DrawTableCardModel,  null, "", null)
             @Html.EditorFor(m=>m.DiscardModel,  null, "", null)
         </div>
-
-
+    </div>
+</div>
 

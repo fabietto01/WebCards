@@ -87,7 +87,7 @@ namespace WebCards.Controllers
                 }
             }
             _context.SaveChanges();
-            for (int i = 0; i < 3 ; i++)
+            for (int i = 0; i < 4 ; i++)
             {
                 var intavolo = new InTavolo
                 {
