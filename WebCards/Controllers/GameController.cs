@@ -57,10 +57,45 @@ namespace WebCards.Controllers
             };
             _context.Partites.Add(partia);
             _context.SaveChanges();
-            return Redirect($"Game/{partia.Rowguid}/create");
+            return Redirect($"User/{partia.Rowguid}/create");
         }
 
-        [Route("/Game/Delete/{id:Guid}")]
+        [Route("Game/{id:Guid}/Inizilizate")]
+        public IActionResult Inizilizate(Guid id)
+        {
+            var mazzo = (from cc in _context.Cartes
+                         select cc).ToList();
+            Random rand = new Random();
+            mazzo = mazzo.OrderBy(x => rand.Next()).ToList();
+            var list_giocato = (from gi in _context.Giocatoris
+                                where gi.PartiatId == id
+                                orderby gi.Numero
+                                select gi).ToList();
+            for (int i = 0; i < (list_giocato.Count * 3);)
+            {
+                foreach (Giocatori giocatore in list_giocato)
+                {
+                    giocatore.add_mano(mazzo.First(), _context);
+                    mazzo.RemoveAt(0);
+                    i++;
+                }
+            }
+            _context.SaveChanges();
+            foreach (var item in mazzo)
+            {
+                var maz = new Mazzo
+                {
+                    CarteIdId = item.Rowguid,
+                    PartitaId = id,
+                };
+                _context.Mazzos.Add(maz);
+            }
+            _context.SaveChanges();
+            var giocatoreId = list_giocato.First().Rowguid;
+            return Redirect($"/Game/{id}/{giocatoreId}");
+        }
+
+        [Route("Game/Delete/{id:Guid}")]
         public IActionResult DeleteGame(Guid id)
         {
             //elimina una partita
@@ -92,40 +127,7 @@ namespace WebCards.Controllers
         }
             
 
-        [Route("Game/{id:Guid}/Inizilizate")]
-        public IActionResult Inizilizate(Guid id)
-        {
-            var mazzo = (from cc in _context.Cartes
-                         select cc).ToList();
-            Random rand = new Random();
-            mazzo = mazzo.OrderBy(x => rand.Next()).ToList();
-            var list_giocato = (from gi in _context.Giocatoris
-                                where gi.PartiatId == id
-                                orderby gi.Numero 
-                                select gi).ToList();
-            for (int i = 0; i < (list_giocato.Count * 3);)
-            {
-                foreach (Giocatori giocatore in list_giocato)
-                {
-                    giocatore.add_mano(mazzo.First(), _context);
-                    mazzo.RemoveAt(0);
-                    i++;
-                }
-            }
-            _context.SaveChanges();
-            foreach (var item in mazzo)
-            {
-                var maz = new Mazzo
-                {
-                    CarteIdId = item.Rowguid,
-                    PartitaId = id,
-                };
-                _context.Mazzos.Add(maz);
-            }
-            _context.SaveChanges();
-            var giocatoreId = list_giocato.First().Rowguid;
-            return Redirect($"/Game/{id}/{giocatoreId}");
-        }
+        
 
 
 

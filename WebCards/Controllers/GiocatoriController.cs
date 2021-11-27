@@ -29,7 +29,7 @@ namespace WebCards.Controllers
             _context = context;
         }
 
-        [Route("Game/{id:Guid}/create")]
+        [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(Guid id)
         {
             var nuermo_giocatori = (_partite).FirstOrDefault(m => m.Rowguid == id).NumeroGiocatori;
@@ -42,7 +42,7 @@ namespace WebCards.Controllers
         }
 
         [HttpPost]
-        [Route("Game/{id:Guid}/create")]
+        [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
             byte x = 0;

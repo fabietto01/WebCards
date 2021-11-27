@@ -9,5 +9,8 @@ namespace WebCards.Models
         public Giocatori GiocatoriDerubato { get; set; }
 
         public Carte CartaScelta { get; set; }
+
+
+
     }
 }

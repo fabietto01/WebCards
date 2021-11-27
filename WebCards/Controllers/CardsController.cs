@@ -20,7 +20,10 @@ namespace WebCards.Controllers
             _context = context;
         }
 
-        public IActionResult DrawPlayerDeck(Partite partita, DrawPlayerDeckModel drawPlayerDeckModel, WebCarteContext context)
+
+        [HttpPost]
+        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
+        public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
         {
             var giocatoreAttuale = drawPlayerDeckModel.GiocatoreAttuale;
             var giocatoreDerubato = drawPlayerDeckModel.GiocatoriDerubato;
@@ -31,17 +34,17 @@ namespace WebCards.Controllers
                     if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
                     {
                         //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
-                        giocatoreAttuale.Ruba(giocatoreDerubato, context);
-                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                        giocatoreAttuale.Ruba(giocatoreDerubato, _context);
+                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
                         giocatoreDerubato.MazzoPersonales.Clear();
                     }
                 }
             }
+            return Redirect($"/Game/{idp}/{idg}");
 
-            return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
 
-        public IActionResult DrawTableCard(Partite partita, DrawTableCardModel drawTableCardModel, WebCarteContext context)
+        public IActionResult DrawTableCard(Partite partita, DrawTableCardModel drawTableCardModel)
         {
             var tavolo = drawTableCardModel.Tavolo;
             var giocatoreAttuale = drawTableCardModel.GiocatoreAttuale;
@@ -51,15 +54,16 @@ namespace WebCards.Controllers
                 {
                     if (giocatoreAttuale.Manos.ElementAt(i).Carta.Valore == tavolo.CarteId.InTavolos.ElementAt(j).CarteId.Valore)
                     {
-                        giocatoreAttuale.SpostaCarta(tavolo.CarteId.Manos.ElementAt(j).Carta, context);
-                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                        giocatoreAttuale.SpostaCarta(tavolo.CarteId.Manos.ElementAt(j).Carta, _context);
+                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
                     }
                 }
             }
+            //return Redirect($"/Game/{id}/{giocatoreId}");
             return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
 
-        public IActionResult Discard(Partite partita, DiscardModel discardModel, WebCarteContext context)
+        public IActionResult Discard(Partite partita, DiscardModel discardModel)
         {
             var tavolo = discardModel.Tavolo;
             var giocatoreAttuale = discardModel.GiocatoreAttuale;
@@ -76,9 +80,10 @@ namespace WebCards.Controllers
                 }
                 if (discardPossible)
                 {
-                    tavolo.AddCardOnTable(giocatoreAttuale.Manos.ElementAt(i).Carta, context);
+                    tavolo.AddCardOnTable(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
                 }
             }
+            //return Redirect($"/Game/{id}/{giocatoreId}");
             return RedirectToAction(actionName: $"{partita.Rowguid}", controllerName: "Game");
         }
     }
