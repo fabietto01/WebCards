@@ -18,7 +18,7 @@ ul {
 }
 
 p {
-    color: black;
+    color: white;
     text-align: justify;
     font-family: 'High Tower Text';
 }
@@ -40,7 +40,7 @@ input[type=submit] {
     font-style: normal;
     font-family: 'High Tower Text';
     /*secondo font da decidere*/
-    font-size: 14px;
+    font-size: 17px;
 }
 
 h3 {
@@ -87,7 +87,29 @@ table, th, td {
     border: 1px solid #e6e600;
     color: white;
 }
-
+p3 {
+    color: white;
+    text-align: center;
+    font-family: 'High Tower Text';
+}
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+.left {
+    position: absolute;
+    left: 0px;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+    color: white;
+}
+.text-basso{
+    text-align:center;
+}
 
 
 

@@ -14,65 +14,65 @@
 
 <div class="text-center">
     <div id="play-aversari">
-        @foreach(var item in player_aversari)
+        @foreach (var item in player_aversari)
         {
-            <div id="player-@item.Nome">
+        <div id="player-@item.Nome">
+            <div class="right">
                 <h1>@item.Nome</h1>
                 <div id="carte_player">
-                        @foreach(var carta in item.Manos)
-                        {
-                            <p>N/D</p>
-                        }
+                    @foreach (var carta in item.Manos)
+                    {
+                        <p>N/D</p>
+                    }
                 </div>
+
+
                 <div id="carta_scoperte">
 
                     @try
                     {
                         <p>a @item.MazzoPersonales.Count() carte nel suo mazzo</p>
                         <p>@item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</p>
-                    }catch(InvalidOperationException){
+                    }
+                    catch (InvalidOperationException)
+                    {
                     }
                 </div>
             </div>
+        </div>
         }
     </div>
     <div id="player-@player.Nome">
+
+    </div>
+    <div class="left">
+
         <h1>@player.Nome</h1>
         <div id="carte_player">
             <p>
-                @foreach(var carta in player.Manos)
+                @foreach (var carta in player.Manos)
                 {
-                    <p>@carta.ToString() - </p>
-                }
-            </p>
-        </div>
-        <div id="carta_scoperte">
-            @try
-            {
-                <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
-                <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
-            }catch(InvalidOperationException){
+                <p>@carta.ToString() - </p>
             }
+                </p>
+            </div>
+
+
+
+            <div id="carta_scoperte">
+                @try
+                {
+                    <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
+                    <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+                }
+                catch (InvalidOperationException)
+                {
+                }
+            </div>
+
+        </div>
+            @Html.EditorFor(m => m.DrawPlayerDeckModel)
         </div>
 
-
-        @Html.EditorFor(m=>m.DrawPlayerDeckModel)
-
-
-
-
-
-
-    </div>
-
-
-
-
-
-    
-
-
-<div/>
- 
 
 

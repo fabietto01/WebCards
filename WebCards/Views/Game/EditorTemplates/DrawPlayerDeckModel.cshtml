@@ -10,19 +10,25 @@
     var player = ViewData["player"] as Giocatori;
 }
 
-<div>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new {action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawPlayerDeck" }))
+<div class="text-basso">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawPlayerDeck" }))
     {
+
         <label>giocatore derubato</label>
         @Html.DropDownListFor(m => m.GiocatoriDerubato,
                               new SelectList(player_aversari),
                               "Selezione giocatroe")
+
+
         <label>con quelle carta</label>
         @Html.DropDownListFor(m => m.CartaScelta,
                               new SelectList(player.Manos),
                               "Selezione giocatroe")
-        <input type="submit"  value="ruba mazzo" />
+
+
+        <input type="submit" value="ruba mazzo" />
     }
-    
+
 
 </div>
