@@ -20,12 +20,14 @@
 
 
 <div>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new {action = $"/Game/{partita.Rowguid}/{player.Rowguid}/Discard" }))
-    {
-        <label>Carta da scartarte</label>
-        @Html.DropDownListFor(m => m.CartaScelta, 
-                                listCarteItems, 
-                                "Seleziona carta")
-        <input type="submit" value="scarta">
-    }
+    <body3>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/Discard" }))
+        {
+            <label>Carta da scartarte</label>
+            @Html.DropDownListFor(m => m.CartaScelta,
+                                    listCarteItems,
+                                    "Seleziona carta")
+            <input type="submit" value="scarta">
+        }
+    </body3>
 </div>
