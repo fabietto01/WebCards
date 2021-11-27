@@ -39,11 +39,25 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
+
             
 
 
+            ViewData["partite"] = _partite;
             return View();
         }
+
+
+        [Route("Game/Delate/{id:Guid}")]
+        public IActionResult DeleteGame(Partite data)
+        {
+            //crea una nuova partita
+            
+            return Redirect("/Game");
+        }
+
+
+
 
         [HttpPost]
         public IActionResult Index(Partite data)
@@ -95,7 +109,6 @@ namespace WebCards.Controllers
                 _context.Mazzos.Add(maz);
             }
             _context.SaveChanges();
-
             return Redirect($"/Game/{id}");
         }
 

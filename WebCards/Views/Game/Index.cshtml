@@ -16,7 +16,26 @@
         <br>
         <input type="submit"  value="creat"/>
     }
-    @Html.HiddenFor(m => m.Rowguid)
+    
+
+    <table>
+        @foreach(var pa in ViewData["partite"] as IQueryable<Partite>)
+        {
+            <tr>
+                <td>
+                @pa.Rowguid
+                </td>
+                <td>
+                @Html.ActionLink("Elimia", "Delate",  new {  id=pa.Rowguid  })
+                </td>
+            </tr>
+        }
+    </table>
+
+
+
+
+
 </div>
 
 
