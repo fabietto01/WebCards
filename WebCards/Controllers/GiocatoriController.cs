@@ -84,6 +84,11 @@ namespace WebCards.Controllers
                 z = 0;
             }
             Giocatori[z].MyTurno = true;
+            if (Giocatori[z].IsBot)
+            {
+                
+            }
+           
             return Redirect($"/Game/{idp}/{idg}");
         }
 
