@@ -140,20 +140,25 @@ namespace WebCards.Controllers
             var mazzo = (from mm in _context.Mazzos
                          where mm.PartitaId == idp 
                          select mm).ToList();
-            if (player.Manos.Count == 0)
+            foreach(var item in partita.Giocatoris)
             {
-                for(int i=0; i < 3; i++)
+                if (item.Manos.Count == 0)
                 {
-                    //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
-                    player.add_mano(mazzo.First().CarteId, _context);
-                    mazzo.RemoveAt(0);
-                }    
+                    for(int i=0; i < 3; i++)
+                    {
+                        //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
+                        item.add_mano(mazzo.First().CarteId, _context);
+                        _context.Mazzos.Remove(mazzo.First());
+                        mazzo.RemoveAt(0);
+                    }    
+                }
             }
             Response.Headers.Add("Refresh", "30");
             //Response.AddHeader("Refresh", "5;URL=Game/{idp:Guid}/{idg:Guid}");
             ViewData["player"] = player;
             ViewData["partita"] = partita;
             ViewData["player_aversari"] = player_aversari;
+            _context.SaveChanges();
             return View(); 
         }
 

@@ -83,8 +83,26 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
         public IActionResult NextGiocatore(Guid idp, Guid idg)
         {
+            if()
+
+
+
+
+
+
             NextGiocatore(idp);
             return Redirect($"/Game/{idp}/{idg}");
+        }
+
+        protected bool condizioni_fine_partita()
+        {
+            bool condizioni = true;
+            foreach (Giocatore giocatore in giocatori)
+            {
+                condizioni = condizioni && (giocatore.CarteCopertes.Count == 0);
+            }
+            condizioni = condizioni && (int_scartate == 0);
+            return !condizioni;
         }
 
         private void NextGiocatore(Guid idp)
@@ -144,7 +162,7 @@ namespace WebCards.Controllers
                     {
                         if(giocatoreAversario.GetPrimaCartaMazzoPersonale().Valore == carte.Valore){
                             giocatore.Ruba(giocatoreAversario, _context);
-                            _context.SaveChanges();
+                            giocatore.SpostaCarta(carte, _context);
                             goto Finish;
                         }
                     }catch(InvalidOperationException)
@@ -160,10 +178,9 @@ namespace WebCards.Controllers
                     if(carte.Valore == item.Valore)
                     {
                         giocatore.SpostaCarta(carte, _context);
-                        giocatore.add_mano(item, _context);
+                        giocatore.addMazzoPersonale(item, _context);
                         var tavolo = _context.InTavolos.FirstOrDefault(m => m.CarteIdId == item.Rowguid && m.ParitaId == partita.Rowguid);
                         _context.InTavolos.Remove(tavolo);
-                        _context.SaveChanges();
                         goto Finish;
                     }
                 }
@@ -173,6 +190,7 @@ namespace WebCards.Controllers
 
 
         Finish:
+            _context.SaveChanges();
             NextGiocatore(partita.Rowguid);
         }
 

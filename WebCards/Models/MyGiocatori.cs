@@ -11,6 +11,7 @@ namespace WebCards.Models
 {
     public partial class Giocatori
     {
+
         public void add_mano(Carte carta, WebCarteContext context)
         {
             var mano = new Mano
@@ -21,7 +22,18 @@ namespace WebCards.Models
             context.Manos.Add(mano);
             context.SaveChanges();
         }
-        
+
+        public void addMazzoPersonale(Carte carta, WebCarteContext context)
+        {
+            var mazzo = new MazzoPersonale
+            {
+                CartaId = carta.Rowguid,
+                GiocatoreId = Rowguid
+            };
+
+            context.MazzoPersonales.Add(mazzo);
+        }
+
         public void Ruba(Giocatori giocatoreRubato, WebCarteContext context)
         {
             var carteGiocatore = (from gg in context.MazzoPersonales
@@ -31,27 +43,18 @@ namespace WebCards.Models
             {
                 item.GiocatoreId = Rowguid;
             }
+            giocatoreRubato.MazzoPersonales.Clear();
             context.SaveChanges();
         }
 
         public void SpostaCarta(Carte carta, WebCarteContext context)
         {
             //sposata la carta dalla mano al mazzo personale
-            var mazzo = new MazzoPersonale
-            {
-                CartaId = carta.Rowguid,
-                GiocatoreId = Rowguid
-            };
+            addMazzoPersonale(carta, context);
 
-            context.MazzoPersonales.Add(mazzo);
-
-            var mano = (from m in context.Manos
-                        where m.CartaId == carta.Rowguid && m.GiocatoreId == Rowguid
-                        select m).First();
+            var mano = context.Manos.FirstOrDefault(m => m.CartaId == carta.Rowguid && m.GiocatoreId == Rowguid);
 
             context.Manos.Remove(mano);
-
-            context.SaveChanges();
         }
 
         public void Scarta(Carte carta, WebCarteContext context)
@@ -65,6 +68,7 @@ namespace WebCards.Models
             var mano = context.Manos.FirstOrDefault(m => m.CartaId == carta.Rowguid && m.GiocatoreId == Rowguid);
             context.Manos.Remove(mano);
         }
+        
         public Carte GetPrimaCartaMazzoPersonale()
         {
             return MazzoPersonales.Last().Carta;
