@@ -94,9 +94,15 @@ namespace WebCards.Controllers
                 {
                     if (!tavolo.Contains(cartaScelta.Valore))
                     {
-                        giocatoreAttuale.Scarta(cartaScelta, _context);
-                        _context.SaveChanges();
-                        return Redirect($"/Game/{idp}/{idg}/Next");
+                        foreach(var item in giocatoreAttuale.Manos)
+                        {
+                            if (!tavolo.Contains(item.Carta.Valore))
+                            {
+                                giocatoreAttuale.Scarta(cartaScelta, _context);
+                                _context.SaveChanges();
+                                return Redirect($"/Game/{idp}/{idg}/Next");
+                            }
+                        }
                     }
                 }
             } catch (Exception ex)

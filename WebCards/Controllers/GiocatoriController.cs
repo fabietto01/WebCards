@@ -114,6 +114,9 @@ namespace WebCards.Controllers
                                     Count = giGroup.Count(),
                                 }).OrderByDescending(x => x.Count).First();
 
+                var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
+                partita.Finita = true;
+                _context.SaveChanges();
                 var ilvincitore = new WinnerWinnerChickenDinnerModel
                 {
                     giocatori = vinciote.giocatori,

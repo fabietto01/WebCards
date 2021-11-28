@@ -32,7 +32,7 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
-            ViewData["partite"] = _partite;
+            ViewData["partite"] = _partite.Where(m => m.Finita == false).OrderBy(m => m.Datatime);
             return View();
         }
 
