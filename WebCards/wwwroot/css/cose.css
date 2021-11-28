@@ -46,6 +46,14 @@ div[id=right] {
     text-align: right;
 }
 
+#container {
+    width: 90px;
+    border-radius: 10px;
+    height: auto;
+    background-color: #003300;
+    padding-bottom: 20px;
+    text-align: justify;
+}
 
 h3 {
     color: white;
