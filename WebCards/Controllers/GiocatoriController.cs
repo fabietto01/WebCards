@@ -83,7 +83,7 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
         public IActionResult NextGiocatore(Guid idp, Guid idg)
         {
-            if()
+            
 
 
 
@@ -94,16 +94,16 @@ namespace WebCards.Controllers
             return Redirect($"/Game/{idp}/{idg}");
         }
 
-        protected bool condizioni_fine_partita()
-        {
-            bool condizioni = true;
-            foreach (Giocatore giocatore in giocatori)
-            {
-                condizioni = condizioni && (giocatore.CarteCopertes.Count == 0);
-            }
-            condizioni = condizioni && (int_scartate == 0);
-            return !condizioni;
-        }
+        //protected bool condizioni_fine_partita()
+        //{
+        //    bool condizioni = true;
+        //    foreach (Giocatore giocatore in giocatori)
+        //    {
+        //        condizioni = condizioni && (giocatore.CarteCopertes.Count == 0);
+        //    }
+        //    condizioni = condizioni && (int_scartate == 0);
+        //    return !condizioni;
+        //}
 
         private void NextGiocatore(Guid idp)
         {

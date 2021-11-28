@@ -80,11 +80,12 @@ h1 {
 p {
     color: white;
     text-align: justify;
+    font-size: 16px;
     font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
 table[id=width50] {
-    width: 100%;
+    width: 50%;
     text-align: center;
 }
 
@@ -97,7 +98,7 @@ table, th, td {
 label {
     color: white;
     font-family: "High Tower Text","Times New Roman", Times, serif;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .center {
