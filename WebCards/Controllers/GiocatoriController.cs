@@ -96,7 +96,10 @@ namespace WebCards.Controllers
             return Redirect($"/Game/{idp}/{idg}");
         }
 
-
+        public IActionResult SelezioneGiocatore()
+        {
+            return View();
+        }
 
 
 
