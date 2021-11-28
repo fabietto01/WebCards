@@ -11,6 +11,20 @@
     <div id="container">
 
         <form action="/action_page.php">
+            @using (Html.BeginForm("SelezioneGiocatore", "Giocatori", FormMethod.Post))
+            {
+
+                @Html.RadioButtonFor(m => m.Gender,"Male")
+
+                @Html.EditorFor(m => m.giocatori)
+
+
+
+
+                <input type="submit" value="Submit">
+            }
+
+
             <input type="radio" id="" name="fav_language" value="">
             <label for="">dio</label><br>
             <input type="radio" id="" name="fav_language" value="">
@@ -20,7 +34,7 @@
 
         </form>
         <br>
-        <input type="submit" value="Submit">
+        
     </div>
     
 </center>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebCards.Models;
 
@@ -47,17 +48,23 @@ namespace WebCards.Controllers
         public IActionResult Index(Partite data)
         {
             //crea una nuova partita
-            Console.WriteLine(data);
-            var partia = new Partite()
+            Regex regex = new Regex(@"^[1-4]{1}$");
+            var numero = data.NumeroGiocatori.ToString();
+            if (regex.IsMatch(numero))
             {
-                Rowguid = Guid.NewGuid(),
-                Datatime = DateTime.Now,
-                NumeroGiocatori = data.NumeroGiocatori,
+                var partia = new Partite()
+                {
+                    Rowguid = Guid.NewGuid(),
+                    Datatime = DateTime.Now,
+                    NumeroGiocatori = data.NumeroGiocatori,
 
-            };
-            _context.Partites.Add(partia);
-            _context.SaveChanges();
-            return Redirect($"User/{partia.Rowguid}/create");
+                };
+                _context.Partites.Add(partia);
+                _context.SaveChanges();
+                return Redirect($"User/{partia.Rowguid}/create");
+            }
+            ViewData["partite"] = _partite;
+            return View();
         }
 
         [Route("Game/{id:Guid}/Inizilizate")]

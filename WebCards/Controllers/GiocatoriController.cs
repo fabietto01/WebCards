@@ -90,6 +90,7 @@ namespace WebCards.Controllers
 
 
 
+
             NextGiocatore(idp);
             return Redirect($"/Game/{idp}/{idg}");
         }
@@ -134,8 +135,21 @@ namespace WebCards.Controllers
             }
         }
 
+
+        
         public IActionResult SelezioneGiocatore()
         {
+
+
+
+
+
+
+
+
+
+
+
             return View();
         }
 
@@ -187,8 +201,6 @@ namespace WebCards.Controllers
             }
             //scarta in casso non fa nessuna azione sopra!
             giocatore.Scarta(mano[0], _context);
-
-
         Finish:
             _context.SaveChanges();
             NextGiocatore(partita.Rowguid);
