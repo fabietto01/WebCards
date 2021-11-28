@@ -8,36 +8,28 @@
     
 }
 
-<br />
-<br />
-<br />
-
-<h2 style="text-align:center">♠ Nuova partita ♠</h2>
-<br />
 <div class="text-center">
-    @using (Html.BeginForm("Index", "Game", FormMethod.Post))
-    {
-        <label>Inserisci numero giocatori</label>
-        @Html.TextBoxFor(m => m.NumeroGiocatori)
-        <br>
-        <input type="submit" value="Create" />
-    }
-
+    <h2 >♠ Nuova partita ♠</h2>
     <br />
+    <div>
+        @using (Html.BeginForm("Index", "Game", FormMethod.Post))
+        {
+            <label>Inserisci numero giocatori</label>
+            @Html.TextBoxFor(m => m.NumeroGiocatori)
+            <br>
+            <input type="submit" value="Create" />
+        }
+    </div>
+    <br />
+    <h2>♠ Continua partita ♠</h2>
+    <br /> 
     <center>
-        <h2 style="text-align:center">♠ Continua partita ♠</h2>
-        <br /> 
-
-        <table style="width:50%">
+        <table id="width50">
             @foreach (var pa in ViewData["partite"] as IQueryable<Partite>)
             {
                 <tr>
                     <th>@pa.Datatime.ToShortDateString()</th>
                     <th>@pa.Rowguid</th>
-
-                    @*@pa.Rowguid*@
-
-
                     <td>
                         @Html.ActionLink("Elimina", "Delete", new { id = pa.Rowguid })
                     </td>
@@ -48,11 +40,6 @@
             }
         </table>
     </center>
-
-
-
-
-
 </div>
 
 

@@ -13,70 +13,70 @@
 
 
 <div class="text-center">
-    <div id="play-aversari">
+
+    <div class="container">
+      <div class="row row-cols-4">
         @foreach (var item in player_aversari)
         {
-        <div id="player-@item.Nome"; align="center">
-            <div class="right">
-                <h1>@item.Nome</h1>
-                <div id="carte_player">
-
-                    <p4>Mano giocatore</p4>
-                    @foreach (var carta in item.Manos)
-                    {
-                        <p>Carta coperta</p>
-                    }
-                </div>
-
-
-                <div id="carta_scoperte">
-
-                    @try
-                    {
-                        <p>(@item.MazzoPersonales.Count() Carte nel mazzetto</p>
-                        <p>@item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</p>
-                    }
-                    catch (InvalidOperationException)
-                    {
-                    }
-                </div>
+        <div id="player-@item.Nome" class="col" >
+            <h1>@item.Nome</h1>
+            <div>
+                @foreach (var carta in item.Manos)
+                {
+                    <label>Carta coperta - </label>
+                }
             </div>
-        </div>
-        }
-    </div>
-
-
-
-    <div id="player-@player.Nome">
-        <div class="left">
-
-            <h1>@player.Nome</h1>
-            <div id="carte_player">
-                <p>
-                    @foreach (var carta in player.Manos)
-                    {
-                    <p>@carta.ToString() - </p>
-                    }
-                </p>
-            </div>
-            <div id="carta_scoperte">
+            <div>
                 @try
                 {
-                    <p>hai @player.MazzoPersonales.Count() carte nel mazzo</p>
-                    <p>@player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+                    <label>(@item.MazzoPersonales.Count() Carte nel mazzetto) @item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</label>
                 }
                 catch (InvalidOperationException)
                 {
                 }
             </div>
         </div>
-        
+        }
+      </div>
+    </div>
+    <div class="container">
+        <h1 class="text-danger">carte in tavolo</h1>
+        <div class="row justify-content-md-center">
+            @foreach(var item in partita.InTavolos)
+            {
+                <div id="carteInTavola" class="col-md-auto" >
+                    <p class="text-danger">@item.CarteId.ToString()</p>
+                </div>
+            }
+        </div>
+    </div>
 
-        </div>  
+    <div>
+        <h1>@player.Nome</h1>
+        <div id="carte_player">
+            <p class="center">
+                @foreach (var carta in player.Manos)
+                {
+                <label>@carta.ToString() - </label>
+                }
+            </p>
+        </div>
+        <div>
+            @try
+            {
+                <p class="center">(@player.MazzoPersonales.Count() Carte nel mazzo) @player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        </div>
+        <div>  
             @Html.EditorFor(m=>m.DrawPlayerDeckModel, null, "", null)
             @Html.EditorFor(m=>m.DrawTableCardModel,  null, "", null)
             @Html.EditorFor(m=>m.DiscardModel,  null, "", null)
-        </div>
+        </div> 
     </div>
+
+
 </div>
 

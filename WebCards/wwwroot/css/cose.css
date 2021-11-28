@@ -30,6 +30,7 @@ body {
 hr {
     border-top: 4px solid darkred;
 }
+/*-----------------------------sono passato io----------------------------------------------*/
 
 input[type=submit] {
     color: white;
@@ -41,27 +42,65 @@ input[type=submit] {
     font-size: 17px;
 }
 
+div[id=right] {
+    text-align: right;
+}
+
 h3 {
     color: white;
-    text-align: right;
     font-family: "High Tower Text","Times New Roman", Times, serif;
-    
 }
 
 h2 {
     color: white;
-    text-align: right;
     font-family: "High Tower Text","Times New Roman", Times, serif;
-    
 }
 
 h1 {
     color: white;
-    text-align: center;
     font-family: "High Tower Text","Times New Roman", Times, serif;
-    
 }
 
+p {
+    color: white;
+    text-align: justify;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+}
+
+table[id=width50] {
+    width: 50%;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid #003300;
+    color: white;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+}
+
+label {
+    color: white;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+    font-size: 16px;
+}
+
+.center {
+    text-align: center;
+}
+
+.red {
+    color: darkred;
+}
+
+
+/*-----------------------------sono passato io----------------------------------------------*/
+
+
+
+
+
+
+/*
 body {
     background-color: #003300;
 }
@@ -69,6 +108,7 @@ body1 {
     position: relative;
     top: 600px;
  }
+
 body2 {
     position: relative;
     top: 450px;
@@ -78,6 +118,7 @@ body3 {
     position: relative;
     top: 400px;
 }
+
 p {
     color: white;
     text-align: justify;
@@ -86,13 +127,6 @@ p {
 
 p1{
     color:black;
-}
-
-p2 {
-    color: white;
-    text-align: justify;
-    font-family: "High Tower Text","Times New Roman", Times, serif;
-    
 }
 
 p3 {
@@ -116,11 +150,7 @@ label {
 }
 
 
-table, th, td {
-    border: 1px solid #003300;
-    color: white;
-    font-family: "High Tower Text","Times New Roman", Times, serif;
-}
+
 
 .right {
     position: absolute;
@@ -129,6 +159,7 @@ table, th, td {
     border: 3px solid darkred;
     padding: 10px;
 }
+
 .left {
     position: absolute;
     left: 0px;
@@ -137,6 +168,7 @@ table, th, td {
     padding: 10px;
     color: white;
 }
+
 text-mossegiocatore
 {
     text-align:center;
@@ -144,6 +176,6 @@ text-mossegiocatore
     
 }
 
-
+*/
 
 

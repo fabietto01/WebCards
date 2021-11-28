@@ -22,7 +22,7 @@ namespace WebCards.Controllers
 
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
         public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
         {
             var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
@@ -45,14 +45,13 @@ namespace WebCards.Controllers
         }
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
         public IActionResult DrawTableCard(Guid idp, Guid idg, DrawTableCardModel drawTableCardModel)
         {
             var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
             var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
             var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
             var tavolo = _context.InTavolos.FirstOrDefault(m => m.ParitaId == idp && m.CarteIdId == cartaIntavola.Rowguid);
-
             if (cartaIntavola.Valore == cartaGiocatore.Valore)
             {
                 giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
@@ -64,7 +63,7 @@ namespace WebCards.Controllers
         }
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/Discard")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/Discard")]
         public IActionResult Discard(Guid idp, Guid idg, DiscardModel discardModel)
         {
             var tavolo = (from ta in _context.InTavolos

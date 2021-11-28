@@ -33,16 +33,16 @@
 
 <div>
     <body2>
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawTableCardModel" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawTableCard" }))
         {
-            <label>prendi carta</label>
+            <label>Prendi carta</label>
             @Html.DropDownListFor(m => m.CartaSceltaIntavola,
                                     listCarteTavoloItems,
-                                    "Seleziona carta sul tavolo")
+                                    "Carta sul tavolo")
             <label>con</label>
             @Html.DropDownListFor(m => m.CartaSceltaMano,
                                     listCarteItems,
-                                    "Seleziona la carta")
+                                    "Carta mano giocatore")
             <input type="submit" value="prendi carta">
         }
     </body2>
