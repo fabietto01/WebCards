@@ -46,6 +46,20 @@ div[id=right] {
     text-align: right;
 }
 
+#container {
+    width: 90px;
+    border-radius: 10px;
+    height: auto;
+    background-color: #003300;
+    padding-bottom: 20px;
+    text-align: justify;
+}
+div [id="end"] {
+    color: yellow;
+    font-style:italic;
+    text-align: right;
+    }
+
 
 h3 {
     color: white;
@@ -97,7 +111,12 @@ label {
 
 /*-----------------------------sono passato io----------------------------------------------*/
 
-
+p id="paragraforight" {
+    text-align: right;
+    color: white;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+    font-size: 16px;
+}
 
 
 
