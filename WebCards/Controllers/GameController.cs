@@ -113,11 +113,6 @@ namespace WebCards.Controllers
             }
             _context.SaveChanges();
             var giocatoreId = list_giocato.First().Rowguid;
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(30),
-                HttpOnly = true,
-            };
             return Redirect($"/Game/{id}/{giocatoreId}");
         }
 
