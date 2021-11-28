@@ -151,9 +151,15 @@ namespace WebCards.Controllers
             ViewData["player_aversari"] = player_aversari;
             return View(); 
         }
-            
 
-        
+
+        public IActionResult FinePartita(Guid idg)
+        {
+            return View();
+        }
+
+
+
 
 
 
