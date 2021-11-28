@@ -67,7 +67,7 @@ namespace WebCards.Controllers
         [Route("Game/{id:Guid}/Inizilizate")]
         public IActionResult Inizilizate(Guid id)
         {
-            //prendo e miscio io mazzo
+            //prendo e mischio il mazzo
             var mazzo = (from cc in _context.Cartes
                          select cc).ToList();
             Random rand = new Random();
@@ -113,11 +113,6 @@ namespace WebCards.Controllers
             }
             _context.SaveChanges();
             var giocatoreId = list_giocato.First().Rowguid;
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(30),
-                HttpOnly = true,
-            };
             return Redirect($"/Game/{id}/{giocatoreId}");
         }
 
@@ -150,6 +145,37 @@ namespace WebCards.Controllers
             ViewData["partita"] = partita;
             ViewData["player_aversari"] = player_aversari;
             return View(); 
+        }
+
+        [Route("Game/{idp:Guid}/{idg:Guid}")]
+        public IActionResult FineTurno(Guid idp)
+        {
+            var lastPlayer = _giocatori.Last();
+            if(lastPlayer.Manos.Count == 0)
+            {
+                var mazzo = (from cc in _context.Cartes
+                             select cc).ToList();
+                var list_giocato = (from gi in _context.Giocatoris
+                                    where gi.PartiatId == idp
+                                    orderby gi.Numero
+                                    select gi).ToList();
+                for (int i = 0; i < (list_giocato.Count * 3);)
+                {
+                    foreach (Giocatori giocatore in list_giocato)
+                    {
+                        if (i == 0)
+                        {
+                            giocatore.MyTurno = true;
+                        }
+                        giocatore.add_mano(mazzo.First(), _context);
+                        mazzo.RemoveAt(0);
+                        i++;
+                    }
+                }
+            }
+            var giocatoreId = _giocatori.First().Rowguid;
+            _context.SaveChanges();
+            return Redirect($"/Game/{idp}/{giocatoreId}");
         }
 
 
