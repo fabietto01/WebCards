@@ -53,7 +53,9 @@ namespace WebCards.Controllers
                     Rowguid = Guid.NewGuid(),
                     Nome = item.Nome,
                     PartiatId = id,
+                    IsBot= !(x == 0),
                     Numero = x
+                    
                 };
                 _context.Giocatoris.Add(g);
                 x++;
@@ -77,6 +79,7 @@ namespace WebCards.Controllers
                 {
                     z = i + 1;
                     Giocatori[i].MyTurno = false;
+                    break;
                 }
             }
             if (z >= Giocatori.Count)
@@ -84,13 +87,21 @@ namespace WebCards.Controllers
                 z = 0;
             }
             Giocatori[z].MyTurno = true;
+            _context.SaveChanges();
             if (Giocatori[z].IsBot)
             {
-                
+                //////////////
             }
-           
+
             return Redirect($"/Game/{idp}/{idg}");
         }
+
+
+
+
+
+
+
 
     }
 }
