@@ -79,81 +79,102 @@ namespace WebCards.Controllers
             numero++; 
         }
 
-
         [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
         public IActionResult NextGiocatore(Guid idp, Guid idg)
         {
-            
+            var giocatori = (from gi in _context.Giocatoris
+                             where gi.PartiatId == idp
+                             orderby gi.Numero
+                             select gi).ToList();
+            var mazzo = (from ma in _context.Mazzos
+                            where ma.PartitaId == idp
+                            select ma).ToList();
+            int z = 0;
+            for (int i = 0; i < giocatori.Count; i++)
+            {
+                if (giocatori[i].MyTurno)
+                {
+                    z = i + 1;
+                    if (z >= giocatori.Count)
+                    {
+                        z = 0;
+                    }
+                    break;
+                }
+            }
+            if (condizioniFinePartita(giocatori, giocatori[z], mazzo.Count))
+            {
+                var vinciote = (from gi in giocatori
+                                join mp in _context.MazzoPersonales on gi.Rowguid equals mp.GiocatoreId
+                                where gi.PartiatId == idp
+                                group gi by gi.Nome into giGroup
+                                select new
+                                {
+                                    giocatori = giGroup.Key,
+                                    Count = giGroup.Count(),
+                                }).OrderByDescending(x => x.Count).First();
 
-
-
-
-
-
-
+                var ilvincitore = new WinnerWinnerChickenDinnerModel
+                {
+                    giocatori = vinciote.giocatori,
+                    count = vinciote.Count.ToString(),
+                };
+                return RedirectToAction("FinePartita", "game", ilvincitore);
+            }
             NextGiocatore(idp);
             return Redirect($"/Game/{idp}/{idg}");
         }
 
-        //protected bool condizioni_fine_partita()
-        //{
-        //    bool condizioni = true;
-        //    foreach (Giocatore giocatore in giocatori)
-        //    {
-        //        condizioni = condizioni && (giocatore.CarteCopertes.Count == 0);
-        //    }
-        //    condizioni = condizioni && (int_scartate == 0);
-        //    return !condizioni;
-        //}
+        protected bool condizioniFinePartita(List<Giocatori> giocatori,Giocatori giocatoreSucesivo, int mazzo)
+        {
+            bool condizioni = true;
+            foreach (Giocatori giocatore in giocatori)
+            {
+                if (giocatore.Rowguid != giocatoreSucesivo.Rowguid)
+                {
+                    condizioni = condizioni && (giocatore.Manos.Count == 0);
+                }
+                else
+                {
+                    condizioni = condizioni && (giocatoreSucesivo.Manos.Count == 1);
+                }
+                if (!condizioni)
+                {
+                    break;
+                }
+            }
+            condizioni = condizioni && (mazzo == 0);
+            return condizioni;
+        }
 
         private void NextGiocatore(Guid idp)
         {
-            var Giocatori = (from gi in _context.Giocatoris
+            var giocatori = (from gi in _context.Giocatoris
                              where gi.PartiatId == idp
                              orderby gi.Numero
                              select gi).ToList();
             int z = 0;
-            for (int i = 0; i < Giocatori.Count; i++)
+            for (int i = 0; i < giocatori.Count; i++)
             {
-                if (Giocatori[i].MyTurno)
+                if (giocatori[i].MyTurno)
                 {
                     z = i + 1;
-                    Giocatori[i].MyTurno = false;
+                    giocatori[i].MyTurno = false;
                     break;
                 }
             }
-            if (z >= Giocatori.Count)
+            if (z >= giocatori.Count)
             {
                 z = 0;
             }
-            Giocatori[z].MyTurno = true;
+            giocatori[z].MyTurno = true;
             _context.SaveChanges();
-            if (Giocatori[z].IsBot)
+            if (giocatori[z].IsBot)
             {
                 var partita = _context.Partites.FirstOrDefault(m => m.Rowguid == idp);
-                BotAction(partita, Giocatori[z]);
+                BotAction(partita, giocatori[z]);
             }
         }
-
-
-        
-        public IActionResult SelezioneGiocatore()
-        {
-
-
-
-
-
-
-
-
-
-
-
-            return View();
-        }
-
-
 
         private void BotAction(Partite partita, Giocatori giocatore)
         {
@@ -205,10 +226,5 @@ namespace WebCards.Controllers
             _context.SaveChanges();
             NextGiocatore(partita.Rowguid);
         }
-
-
-
-
-
     }
 }

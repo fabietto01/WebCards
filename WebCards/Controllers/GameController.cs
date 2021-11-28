@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,6 @@ namespace WebCards.Controllers
         {
             get { return from p in _context.Partites
                          select p;
-            }
-        }
-
-        protected IQueryable<Giocatori> _giocatori
-        {
-            get
-            {
-                return from gi in _context.Giocatoris
-                       select gi;
             }
         }
 
@@ -135,6 +127,10 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}")]
         public IActionResult Partita(Guid idp, Guid idg) 
         {
+            _context.Manos.Load();
+            _context.Cartes.Load();
+            _context.InTavolos.Load();
+            _context.MazzoPersonales.Load();
             var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
             var player = (from pa in _partite
                           join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
@@ -147,21 +143,23 @@ namespace WebCards.Controllers
             var mazzo = (from mm in _context.Mazzos
                          where mm.PartitaId == idp 
                          select mm).ToList();
-            foreach(var item in partita.Giocatoris)
+            if (mazzo.Count > 0)
             {
-                if (item.Manos.Count == 0)
+                foreach (var item in partita.Giocatoris)
                 {
-                    for(int i=0; i < 3; i++)
+                    if (item.Manos.Count == 0)
                     {
-                        //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
-                        item.add_mano(mazzo.First().CarteId, _context);
-                        _context.Mazzos.Remove(mazzo.First());
-                        mazzo.RemoveAt(0);
-                    }    
+                        for (int i = 0; i < 3; i++)
+                        {
+                            //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
+                            item.add_mano(mazzo.First().CarteId, _context);
+                            _context.Mazzos.Remove(mazzo.First());
+                            mazzo.RemoveAt(0);
+                        }
+                    }
                 }
             }
             Response.Headers.Add("Refresh", "30");
-            //Response.AddHeader("Refresh", "5;URL=Game/{idp:Guid}/{idg:Guid}");
             ViewData["player"] = player;
             ViewData["partita"] = partita;
             ViewData["player_aversari"] = player_aversari;
@@ -169,9 +167,32 @@ namespace WebCards.Controllers
             return View(); 
         }
 
-        public IActionResult FinePartita(Guid idg)
+
+        [Route("Game/Load/{idp:Guid}/")]
+        public IActionResult LoadPartita(Guid idp)
         {
+            var giocatori = (from gi in _context.Giocatoris
+                             where gi.PartiatId == idp && gi.IsBot == false
+                             select gi).ToList();
+            if (giocatori.Count == 1) 
+            {
+                return Redirect($"/Game/{idp}/{giocatori[0].Rowguid}");
+            }
+            ViewData["ListaGiocatori"] = giocatori;
             return View();
+        }
+
+        [HttpPost]
+        [Route("Game/Load/{idp:Guid}/")]
+        public IActionResult LoadPartita(Guid idp, Giocatori model)
+        {
+            return Redirect($"/Game/{idp}/{model.Rowguid}");
+        }
+
+
+        public IActionResult FinePartita(WinnerWinnerChickenDinnerModel model)
+        {
+            return View(model);
         }
 
       

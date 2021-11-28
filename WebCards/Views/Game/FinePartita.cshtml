@@ -1,6 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@model WebCards.Models.WinnerWinnerChickenDinnerModel
+
 @{
     ViewData["Title"] = "Fine partita";
 }
@@ -15,7 +18,7 @@
     <p>Questa è l'applicazione che siamo riusciti a creare in questi giorni di lavoro insieme<br />
        Speriamo che vi sia piaciuta e che rispetti tutte le richieste. <br />
         Ora la notizia più importante: <br />
-        Il vincitore è:
+        Il vincitore è: @Html.DisplayFor(m => m.giocatori) con @Html.DisplayFor(m => m.count)
     </p>
    
 <br />

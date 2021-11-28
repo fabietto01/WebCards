@@ -8,7 +8,7 @@ namespace WebCards.Models
 {
     public partial class WebCarteContext : DbContext
     {
-        public WebCarteContext()
+        public WebCarteContext() 
         {
         }
 

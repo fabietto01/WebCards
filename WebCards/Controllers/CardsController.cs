@@ -25,22 +25,28 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
         public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
         {
-            var giocatoreDerubato = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.GiocatoriDerubato));
-            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
-            var cartaScelta = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.CartaScelta));
-            if (giocatoreAttuale.MyTurno)
+            try
             {
-                if (giocatoreAttuale != giocatoreDerubato)
+                var giocatoreDerubato = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.GiocatoriDerubato));
+                var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+                var cartaScelta = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.CartaScelta));
+                if (giocatoreAttuale.MyTurno)
                 {
-                    if (giocatoreDerubato.GetPrimaCartaMazzoPersonale().Valore == cartaScelta.Valore)
+                    if (giocatoreAttuale != giocatoreDerubato)
                     {
-                        //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
-                        giocatoreAttuale.Ruba(giocatoreDerubato, _context);
-                        giocatoreAttuale.SpostaCarta(cartaScelta, _context);
-                        _context.SaveChanges();
-                        return Redirect($"/Game/{idp}/{idg}/Next");
+                        if (giocatoreDerubato.GetPrimaCartaMazzoPersonale().Valore == cartaScelta.Valore)
+                        {
+                            //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
+                            giocatoreAttuale.Ruba(giocatoreDerubato, _context);
+                            giocatoreAttuale.SpostaCarta(cartaScelta, _context);
+                            _context.SaveChanges();
+                            return Redirect($"/Game/{idp}/{idg}/Next");
+                        }
                     }
                 }
+            }
+            catch (ArgumentNullException) 
+            { 
             }
             return Redirect($"/Game/{idp}/{idg}");
         }
@@ -49,20 +55,25 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
         public IActionResult DrawTableCard(Guid idp, Guid idg, DrawTableCardModel drawTableCardModel)
         {
-            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
-            var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
-            var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
-            var tavolo = _context.InTavolos.FirstOrDefault(m => m.ParitaId == idp && m.CarteIdId == cartaIntavola.Rowguid);
-            if (giocatoreAttuale.MyTurno)
+            try
             {
-                if (cartaIntavola.Valore == cartaGiocatore.Valore)
+                var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+                var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
+                var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
+                var tavolo = _context.InTavolos.FirstOrDefault(m => m.ParitaId == idp && m.CarteIdId == cartaIntavola.Rowguid);
+                if (giocatoreAttuale.MyTurno)
                 {
-                    giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
-                    giocatoreAttuale.addMazzoPersonale(cartaIntavola, _context);
-                    _context.InTavolos.Remove(tavolo);
-                    _context.SaveChanges();
-                    return Redirect($"/Game/{idp}/{idg}/Next");
+                    if (cartaIntavola.Valore == cartaGiocatore.Valore)
+                    {
+                        giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
+                        giocatoreAttuale.addMazzoPersonale(cartaIntavola, _context);
+                        _context.InTavolos.Remove(tavolo);
+                        _context.SaveChanges();
+                        return Redirect($"/Game/{idp}/{idg}/Next");
+                    }
                 }
+            }catch (Exception ex)
+            {
             }
             return Redirect($"/Game/{idp}/{idg}");
         }
@@ -71,20 +82,26 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/Discard")]
         public IActionResult Discard(Guid idp, Guid idg, DiscardModel discardModel)
         {
-            var tavolo = (from ta in _context.InTavolos
-                          join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
-                          where ta.ParitaId == idp
-                          select ca.Valore).ToList();
-            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
-            var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
-            if (giocatoreAttuale.MyTurno)
+            try
             {
-                if (!tavolo.Contains(cartaScelta.Valore))
+                var tavolo = (from ta in _context.InTavolos
+                              join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
+                              where ta.ParitaId == idp
+                              select ca.Valore).ToList();
+                var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+                var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
+                if (giocatoreAttuale.MyTurno)
                 {
-                    giocatoreAttuale.Scarta(cartaScelta, _context);
-                    _context.SaveChanges();
-                    return Redirect($"/Game/{idp}/{idg}/Next");
+                    if (!tavolo.Contains(cartaScelta.Valore))
+                    {
+                        giocatoreAttuale.Scarta(cartaScelta, _context);
+                        _context.SaveChanges();
+                        return Redirect($"/Game/{idp}/{idg}/Next");
+                    }
                 }
+            } catch (Exception ex)
+            {
+
             }
             return Redirect($"/Game/{idp}/{idg}");
 
