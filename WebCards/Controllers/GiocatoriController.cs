@@ -52,7 +52,6 @@ namespace WebCards.Controllers
                 {
                     Rowguid = Guid.NewGuid(),
                     Nome = item.Nome,
-                    IsBot = item.IsBot,
                     PartiatId = id,
                     Numero = x
                 };
@@ -67,9 +66,24 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
         public IActionResult NextGiocatore(Guid idp, Guid idg)
         {
-
-
-
+            var Giocatori = (from gi in _context.Giocatoris
+                             where gi.PartiatId == idp
+                             orderby gi.Numero
+                             select gi).ToList();
+            int z = 0;
+            for (int i = 0; i < Giocatori.Count; i++)
+            {
+                if (Giocatori[i].MyTurno)
+                {
+                    z = i + 1;
+                    Giocatori[i].MyTurno = false;
+                }
+            }
+            if (z >= Giocatori.Count)
+            {
+                z = 0;
+            }
+            Giocatori[z].MyTurno = true;
             return Redirect($"/Game/{idp}/{idg}");
         }
 

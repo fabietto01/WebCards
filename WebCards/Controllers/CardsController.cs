@@ -27,17 +27,21 @@ namespace WebCards.Controllers
         {
             var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
             var giocatoreDerubato = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.GiocatoriDerubato));
-            if (giocatoreAttuale != giocatoreDerubato)
+            if (giocatoreAttuale.MyTurno)
             {
-                for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+                if (giocatoreAttuale != giocatoreDerubato)
                 {
-                    if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
+                    for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
                     {
-                        //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
-                        giocatoreAttuale.Ruba(giocatoreDerubato, _context);
-                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
-                        giocatoreDerubato.MazzoPersonales.Clear();
-                        _context.SaveChanges();
+                        if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
+                        {
+                            //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
+                            giocatoreAttuale.Ruba(giocatoreDerubato, _context);
+                            giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
+                            giocatoreDerubato.MazzoPersonales.Clear();
+                            _context.SaveChanges();
+                            return Redirect($"/Game/{idp}/{idg}/Next");
+                        }
                     }
                 }
             }
@@ -52,12 +56,16 @@ namespace WebCards.Controllers
             var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
             var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
             var tavolo = _context.InTavolos.FirstOrDefault(m => m.ParitaId == idp && m.CarteIdId == cartaIntavola.Rowguid);
-            if (cartaIntavola.Valore == cartaGiocatore.Valore)
+            if (giocatoreAttuale.MyTurno)
             {
-                giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
-                giocatoreAttuale.add_mano(cartaIntavola, _context);
-                _context.InTavolos.Remove(tavolo);
-                _context.SaveChanges();
+                if (cartaIntavola.Valore == cartaGiocatore.Valore)
+                {
+                    giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
+                    giocatoreAttuale.add_mano(cartaIntavola, _context);
+                    _context.InTavolos.Remove(tavolo);
+                    _context.SaveChanges();
+                    return Redirect($"/Game/{idp}/{idg}/Next");
+                }
             }
             return Redirect($"/Game/{idp}/{idg}");
         }
@@ -72,12 +80,17 @@ namespace WebCards.Controllers
                           select ca.Valore).ToList();
             var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
             var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
-            if (!tavolo.Contains(cartaScelta.Valore))
+            if (giocatoreAttuale.MyTurno)
             {
-                giocatoreAttuale.Scarta(cartaScelta, _context);
-                _context.SaveChanges();
+                if (!tavolo.Contains(cartaScelta.Valore))
+                {
+                    giocatoreAttuale.Scarta(cartaScelta, _context);
+                    _context.SaveChanges();
+                    return Redirect($"/Game/{idp}/{idg}/Next");
+                }
             }
             return Redirect($"/Game/{idp}/{idg}");
+
         }
     }
 }

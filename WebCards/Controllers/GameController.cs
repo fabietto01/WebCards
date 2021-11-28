@@ -81,6 +81,10 @@ namespace WebCards.Controllers
             {
                 foreach (Giocatori giocatore in list_giocato)
                 {
+                    if (i == 0)
+                    {
+                        giocatore.MyTurno = true;
+                    }
                     giocatore.add_mano(mazzo.First(), _context);
                     mazzo.RemoveAt(0);
                     i++;

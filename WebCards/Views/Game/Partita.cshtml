@@ -11,7 +11,6 @@
     var player_aversari = ViewData["player_aversari"] as List<Giocatori>;
 }
 
-
 <div class="text-center">
 
     <div class="container">
@@ -19,8 +18,8 @@
         @foreach (var item in player_aversari)
         {
         <div id="player-@item.Nome" class="col" >
-            <h1>@item.Nome</h1>
-            <div>
+                <h1>@if (item.MyTurno) {<i>&#8226</i>}@item.Nome</h1>
+                <div>
                 @foreach (var carta in item.Manos)
                 {
                     <label>Carta coperta - </label>
@@ -52,7 +51,7 @@
     </div>
 
     <div>
-        <h1>@player.Nome</h1>
+        <h1>@if (player.MyTurno) {<i>&#8226</i>}@player.Nome</h1>
         <div id="carte_player">
             <p class="center">
                 @foreach (var carta in player.Manos)
