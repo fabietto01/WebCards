@@ -62,5 +62,16 @@ namespace WebCards.Controllers
             _context.SaveChanges();
             return Redirect($"/Game/{id}/Inizilizate");
         }
+
+
+        [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
+        public IActionResult NextGiocatore(Guid idp, Guid idg)
+        {
+
+
+
+            return Redirect($"/Game/{idp}/{idg}");
+        }
+
     }
 }

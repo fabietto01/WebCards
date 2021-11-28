@@ -69,12 +69,13 @@ namespace WebCards.Controllers
             var tavolo = (from ta in _context.InTavolos
                           join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
                           where ta.ParitaId == idp
-                          select ca).ToList();
+                          select ca.Valore).ToList();
             var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
             var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
-            if (!tavolo.Contains(cartaScelta))
+            if (!tavolo.Contains(cartaScelta.Valore))
             {
                 giocatoreAttuale.Scarta(cartaScelta, _context);
+                _context.SaveChanges();
             }
             return Redirect($"/Game/{idp}/{idg}");
         }
