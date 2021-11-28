@@ -162,6 +162,11 @@ namespace WebCards.Controllers
             return View();
         }
 
+        public IActionResult SelezioneGiocatore()
+        {
+            return View();
+        }
+
 
 
 
