@@ -39,10 +39,6 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
-            var cookieValue = Request.Cookies;
-
-
-
             ViewData["partite"] = _partite;
             return View();
         }
@@ -141,43 +137,25 @@ namespace WebCards.Controllers
                                    join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
                                    where gi.Rowguid != idg && pa.Rowguid == idp
                                    select gi).ToList();
+            var mazzo = (from mm in _context.Mazzos
+                         where mm.PartitaId == idp 
+                         select mm).ToList();
+            if (player.Manos.Count == 0)
+            {
+                for(int i=0; i < 3; i++)
+                {
+                    //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
+                    player.add_mano(mazzo.First().CarteId, _context);
+                    mazzo.RemoveAt(0);
+                }    
+            }
+            Response.Headers.Add("Refresh", "30");
+            //Response.AddHeader("Refresh", "5;URL=Game/{idp:Guid}/{idg:Guid}");
             ViewData["player"] = player;
             ViewData["partita"] = partita;
             ViewData["player_aversari"] = player_aversari;
             return View(); 
         }
-
-        [Route("Game/{idp:Guid}/{idg:Guid}")]
-        public IActionResult FineTurno(Guid idp)
-        {
-            var lastPlayer = _giocatori.Last();
-            if(lastPlayer.Manos.Count == 0)
-            {
-                var mazzo = (from cc in _context.Cartes
-                             select cc).ToList();
-                var list_giocato = (from gi in _context.Giocatoris
-                                    where gi.PartiatId == idp
-                                    orderby gi.Numero
-                                    select gi).ToList();
-                for (int i = 0; i < (list_giocato.Count * 3);)
-                {
-                    foreach (Giocatori giocatore in list_giocato)
-                    {
-                        if (i == 0)
-                        {
-                            giocatore.MyTurno = true;
-                        }
-                        giocatore.add_mano(mazzo.First(), _context);
-                        mazzo.RemoveAt(0);
-                        i++;
-                    }
-                }
-            }
-            var giocatoreId = _giocatori.First().Rowguid;
-            _context.SaveChanges();
-            return Redirect($"/Game/{idp}/{giocatoreId}");
-        }
-
 
         public IActionResult FinePartita(Guid idg)
         {

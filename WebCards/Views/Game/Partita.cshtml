@@ -28,7 +28,7 @@
             <div>
                 @try
                 {
-                    <label>(@item.MazzoPersonales.Count() Carte nel mazzetto) @item.MazzoPersonales.Last().Carta.Valore/@item.MazzoPersonales.Last().Carta.Seme</label>
+                    <label>(@item.MazzoPersonales.Count() Carte nel mazzetto) @item.GetPrimaCartaMazzoPersonale().Valore/@item.GetPrimaCartaMazzoPersonale().Seme</label>
                 }
                 catch (InvalidOperationException)
                 {
@@ -64,7 +64,7 @@
         <div>
             @try
             {
-                <p class="center">(@player.MazzoPersonales.Count() Carte nel mazzo) @player.MazzoPersonales.Last().Carta.Valore/@player.MazzoPersonales.Last().Carta.Seme</p>
+                <p class="center">(@player.MazzoPersonales.Count() Carte nel mazzo) @player.GetPrimaCartaMazzoPersonale().Valore/@player.GetPrimaCartaMazzoPersonale().Seme</p>
             }
             catch (InvalidOperationException)
             {

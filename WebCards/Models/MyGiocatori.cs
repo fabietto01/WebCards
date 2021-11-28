@@ -24,16 +24,12 @@ namespace WebCards.Models
         
         public void Ruba(Giocatori giocatoreRubato, WebCarteContext context)
         {
-            var carteGiocatore = from gg in context.MazzoPersonales
+            var carteGiocatore = (from gg in context.MazzoPersonales
                                  where gg.GiocatoreId == giocatoreRubato.Rowguid
-                                 select gg;
-
-            var listaCarteGiocatore = carteGiocatore.ToList();
-
-            foreach (var item in listaCarteGiocatore)
+                                 select gg).ToList();
+            foreach (var item in carteGiocatore)
             {
                 item.GiocatoreId = Rowguid;
-
             }
             context.SaveChanges();
         }
@@ -68,6 +64,10 @@ namespace WebCards.Models
             context.InTavolos.Add(intavolo);
             var mano = context.Manos.FirstOrDefault(m => m.CartaId == carta.Rowguid && m.GiocatoreId == Rowguid);
             context.Manos.Remove(mano);
+        }
+        public Carte GetPrimaCartaMazzoPersonale()
+        {
+            return MazzoPersonales.Last().Carta;
         }
 
 
