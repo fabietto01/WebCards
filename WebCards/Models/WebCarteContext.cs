@@ -80,6 +80,10 @@ namespace WebCards.Models
                     .HasColumnName("is_bot")
                     .HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.MyTurno)
+                    .HasColumnName("my_turno")
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Nome)
                     .IsRequired()
                     .HasMaxLength(25)
@@ -232,11 +236,6 @@ namespace WebCards.Models
                 entity.Property(e => e.NumeroGiocatori)
                     .HasColumnName("numero_giocatori")
                     .HasComment("memoriza il numero di giocatori");
-
-                entity.Property(e => e.Url)
-                    .HasMaxLength(50)
-                    .HasColumnName("url")
-                    .HasComment("urls");
             });
 
             modelBuilder.Entity<Tipi>(entity =>

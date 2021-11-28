@@ -22,21 +22,26 @@ namespace WebCards.Controllers
 
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
         public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
         {
-            var giocatoreAttuale = drawPlayerDeckModel.GiocatoreAttuale;
-            var giocatoreDerubato = drawPlayerDeckModel.GiocatoriDerubato;
-            if (giocatoreAttuale != giocatoreDerubato)
+            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+            var giocatoreDerubato = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawPlayerDeckModel.GiocatoriDerubato));
+            if (giocatoreAttuale.MyTurno)
             {
-                for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+                if (giocatoreAttuale != giocatoreDerubato)
                 {
-                    if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
+                    for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
                     {
-                        //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
-                        giocatoreAttuale.Ruba(giocatoreDerubato, _context);
-                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
-                        giocatoreDerubato.MazzoPersonales.Clear();
+                        if (giocatoreDerubato.MazzoPersonales.First().Carta.Valore == giocatoreAttuale.Manos.ElementAt(i).Carta.Valore)
+                        {
+                            //giocatoreAttuale.MazzoPersonales.Concat(giocatoreDerubato.MazzoPersonales);
+                            giocatoreAttuale.Ruba(giocatoreDerubato, _context);
+                            giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
+                            giocatoreDerubato.MazzoPersonales.Clear();
+                            _context.SaveChanges();
+                            return Redirect($"/Game/{idp}/{idg}/Next");
+                        }
                     }
                 }
             }
@@ -44,50 +49,48 @@ namespace WebCards.Controllers
         }
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
         public IActionResult DrawTableCard(Guid idp, Guid idg, DrawTableCardModel drawTableCardModel)
         {
-            var tavolo = drawTableCardModel.Tavolo;
-            var giocatoreAttuale = drawTableCardModel.GiocatoreAttuale;
-            for (int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+            var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
+            var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
+            var tavolo = _context.InTavolos.FirstOrDefault(m => m.ParitaId == idp && m.CarteIdId == cartaIntavola.Rowguid);
+            if (giocatoreAttuale.MyTurno)
             {
-                for (int j = 0; j < tavolo.CarteId.Manos.Count; j++)
+                if (cartaIntavola.Valore == cartaGiocatore.Valore)
                 {
-                    if (giocatoreAttuale.Manos.ElementAt(i).Carta.Valore == tavolo.CarteId.InTavolos.ElementAt(j).CarteId.Valore)
-                    {
-                        giocatoreAttuale.SpostaCarta(tavolo.CarteId.Manos.ElementAt(j).Carta, _context);
-                        giocatoreAttuale.SpostaCarta(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
-                    }
+                    giocatoreAttuale.SpostaCarta(cartaGiocatore, _context);
+                    giocatoreAttuale.add_mano(cartaIntavola, _context);
+                    _context.InTavolos.Remove(tavolo);
+                    _context.SaveChanges();
+                    return Redirect($"/Game/{idp}/{idg}/Next");
                 }
             }
-            //return Redirect($"/Game/{id}/{giocatoreId}");
             return Redirect($"/Game/{idp}/{idg}");
         }
 
         [HttpPost]
-        [Route("/Game/{idp:Guid}/{idg:Guid}/Discard")]
+        [Route("Game/{idp:Guid}/{idg:Guid}/Discard")]
         public IActionResult Discard(Guid idp, Guid idg, DiscardModel discardModel)
         {
-            var tavolo = discardModel.Tavolo;
-            var giocatoreAttuale = discardModel.GiocatoreAttuale;
-            bool discardPossible = false;
-            //tabel.CarteId.InTavolos.Add(giocatoreAttuale.SpostaCarta(,context))
-            for(int i = 0; i < giocatoreAttuale.Manos.Count; i++)
+            var tavolo = (from ta in _context.InTavolos
+                          join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
+                          where ta.ParitaId == idp
+                          select ca.Valore).ToList();
+            var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
+            var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
+            if (giocatoreAttuale.MyTurno)
             {
-                for(int j = 0; j < tavolo.CarteId.Manos.Count; j++)
+                if (!tavolo.Contains(cartaScelta.Valore))
                 {
-                    if(giocatoreAttuale.Manos.ElementAt(i).Carta.Valore != tavolo.CarteId.InTavolos.ElementAt(j).CarteId.Valore)
-                    {
-                        discardPossible = true;
-                    }
-                }
-                if (discardPossible)
-                {
-                    tavolo.AddCardOnTable(giocatoreAttuale.Manos.ElementAt(i).Carta, _context);
+                    giocatoreAttuale.Scarta(cartaScelta, _context);
+                    _context.SaveChanges();
+                    return Redirect($"/Game/{idp}/{idg}/Next");
                 }
             }
-            //return Redirect($"/Game/{id}/{giocatoreId}");
             return Redirect($"/Game/{idp}/{idg}");
+
         }
     }
 }

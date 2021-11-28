@@ -52,9 +52,10 @@ namespace WebCards.Controllers
                 {
                     Rowguid = Guid.NewGuid(),
                     Nome = item.Nome,
-                    IsBot = item.IsBot,
                     PartiatId = id,
+                    IsBot= !(x == 0),
                     Numero = x
+                    
                 };
                 _context.Giocatoris.Add(g);
                 x++;
@@ -62,5 +63,48 @@ namespace WebCards.Controllers
             _context.SaveChanges();
             return Redirect($"/Game/{id}/Inizilizate");
         }
+
+
+        [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
+        public IActionResult NextGiocatore(Guid idp, Guid idg)
+        {
+            var Giocatori = (from gi in _context.Giocatoris
+                             where gi.PartiatId == idp
+                             orderby gi.Numero
+                             select gi).ToList();
+            int z = 0;
+            for (int i = 0; i < Giocatori.Count; i++)
+            {
+                if (Giocatori[i].MyTurno)
+                {
+                    z = i + 1;
+                    Giocatori[i].MyTurno = false;
+                    break;
+                }
+            }
+            if (z >= Giocatori.Count)
+            {
+                z = 0;
+            }
+            Giocatori[z].MyTurno = true;
+            _context.SaveChanges();
+            if (Giocatori[z].IsBot)
+            {
+                //////////////
+            }
+
+            return Redirect($"/Game/{idp}/{idg}");
+        }
+
+        public IActionResult SelezioneGiocatore()
+        {
+            return View();
+        }
+
+
+
+
+
+
     }
 }

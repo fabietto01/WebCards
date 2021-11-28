@@ -8,27 +8,41 @@
     var player_aversari = ViewData["player_aversari"] as List<Giocatori>;
     var partita = ViewData["partita"] as Partite;
     var player = ViewData["player"] as Giocatori;
+
+    List<SelectListItem> listGiocatoriAversariItems= new List<SelectListItem>();
+    foreach(var item in player_aversari)
+    {
+        listGiocatoriAversariItems.Add(new SelectListItem
+            {
+              Text = $"{item}",
+              Value = $"{item.Rowguid}"
+            });
+    }
+    List<SelectListItem> listCarteItems= new List<SelectListItem>();
+    foreach(var item in player.Manos)
+    {
+        listCarteItems.Add(new SelectListItem
+            {
+              Text = $"{item}",
+              Value = $"{item.CartaId}"
+            });
+    }
 }
 
-<div class="text-basso">
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="text-mossegiocatore">
+    <body1>
+
     @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawPlayerDeck" }))
     {
-
-        <label>giocatore derubato</label>
+        <label>Ruba mazzetto di </label>
         @Html.DropDownListFor(m => m.GiocatoriDerubato,
-                              new SelectList(player_aversari),
-                              "Selezione giocatroe")
-
-
-        <label>con quelle carta</label>
+                              listGiocatoriAversariItems,
+                              "Nome giocatore")
+        <label>con </label>
         @Html.DropDownListFor(m => m.CartaScelta,
-                              new SelectList(player.Manos),
-                              "Selezione giocatroe")
-
-
-        <input type="submit" value="ruba mazzo" />
+                              listCarteItems,
+                              "Carta mano giocatore")
+        <input type="submit" value="ruba" />
     }
-
-
+    </body1>
 </div>

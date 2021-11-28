@@ -11,7 +11,7 @@ namespace WebCards.Models
 {
     public class ViewModel
     {
-        public DrawPlayerDeckModel DrawPlayerDeckModel {get; set;}
+        public DrawPlayerDeckModel DrawPlayerDeckModel { get; set;}
 
         public DrawTableCardModel DrawTableCardModel {get; set;}
 

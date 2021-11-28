@@ -1,10 +1,14 @@
 ﻿header {
     background-color: #ffffff;
     color: red;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
 footer {
     background-color: #ffffff;
+    color: black;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+    text-align:center;
 }
 
 container {
@@ -14,14 +18,9 @@ container {
 ul {
     color: white;
     text-align: justify;
-    font-family: 'High Tower Text';
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
-
-p {
-    color: white;
-    text-align: justify;
-    font-family: 'High Tower Text';
-}
+   
 
 body {
     background-color: #003300;
@@ -31,6 +30,7 @@ body {
 hr {
     border-top: 4px solid darkred;
 }
+/*-----------------------------sono passato io----------------------------------------------*/
 
 input[type=submit] {
     color: white;
@@ -38,84 +38,66 @@ input[type=submit] {
     text-align: center;
     border: 1px solid black;
     font-style: normal;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
     font-size: 17px;
 }
 
+div[id=right] {
+    text-align: right;
+}
+
+
 h3 {
     color: white;
-    text-align: right;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
 h2 {
     color: white;
-    text-align: right;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
+
 
 h1 {
     color: white;
-    text-align: center;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
-body {
-    background-color: #003300;
-}
-
-p2 {
+p {
     color: white;
     text-align: justify;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
+}
+
+table[id=width50] {
+    width: 100%;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid #003300;
+    color: white;
+    font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
 label {
     color: white;
-    font-family: 'High Tower Text';
-    /*secondo font da decidere*/
+    font-family: "High Tower Text","Times New Roman", Times, serif;
     font-size: 16px;
 }
 
+.center {
+    text-align: center;
+}
 
-table, th, td {
-    border: 1px solid #e6e600;
-    color: white;
-    text-align: center;
+.red {
+    color: darkred;
 }
-table2, th2, td2 {
-    border: 1px solid #e6e600;
-    color: white;
-    text-align: center;
-}
-p3 {
-    color: white;
-    text-align: center;
-    font-family: 'High Tower Text';
-}
-.right {
-    position: absolute;
-    right: 0px;
-    width: 300px;
-    border: 3px solid #73AD21;
-    padding: 10px;
-}
-.left {
-    position: absolute;
-    left: 0px;
-    width: 300px;
-    border: 3px solid #73AD21;
-    padding: 10px;
-    color: white;
-}
-.text-basso{
-    text-align:center;
-}
+
+
+/*-----------------------------sono passato io----------------------------------------------*/
+
+
 
 
 

@@ -18,6 +18,7 @@ namespace WebCards.Models
         public Guid PartiatId { get; set; }
         public bool IsBot { get; set; }
         public byte Numero { get; set; }
+        public bool MyTurno { get; set; }
 
         public virtual Partite Partiat { get; set; }
         public virtual ICollection<Mano> Manos { get; set; }
