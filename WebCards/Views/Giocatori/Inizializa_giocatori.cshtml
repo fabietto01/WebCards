@@ -10,28 +10,26 @@
 
 @using (Html.BeginForm("Inizializa_giocatori", "Giocatori", FormMethod.Post))
 {
-<h1 style="text-align:center;">♠ Crea giocatore ♠</h1>
+    <h1 style="text-align:center;">♠ Crea giocatore ♠</h1>
     <center>
-            <table style="width:30%">
+        <table style="width:100%" ; align="center">
 
-                <tr>
-                    <th>Inserisci nome e metti la spunta se è un bot </th>
-                  
-                </tr>
-                
-                
-                    <tr style="width:0%"; align="left">
-                        @Html.EditorFor(m => m.giocatori)
-                    </tr>
-                
+            <tr>
+                <th style="text-align: center">Inserisci nome </th>
 
-            </table>
-            </center>
-            <br>
-            <center>
-                <input type="submit" value="Inserisci" />
-                <br><br><p class="center">Il primo giocatore a inserire il nome sarà l'utente e il primo a fare una mossa</p>
-            </center>
+            </tr>
+
+            @Html.EditorFor(m => m.giocatori)
+            
+    
+
+    </table>
+    </center>
+    <br>
+    <center>
+        <input type="submit" value="Inserisci" />
+        <br><br><p class="center">Il primo giocatore a inserire il nome sarà l'utente e il primo a fare una mossa</p>
+    </center>
 }
 
 
