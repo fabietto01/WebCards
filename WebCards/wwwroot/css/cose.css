@@ -86,6 +86,12 @@ label {
 table, th, td {
     border: 1px solid #e6e600;
     color: white;
+    text-align: center;
+}
+table2, th2, td2 {
+    border: 1px solid #e6e600;
+    color: white;
+    text-align: center;
 }
 p3 {
     color: white;
