@@ -127,7 +127,7 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}")]
         public IActionResult Partita(Guid idp, Guid idg)
         {
-            lock (_context)
+            lock (_context.Manos)
             {
                 _context.Manos.Load();
                 _context.Cartes.Load();
@@ -161,7 +161,7 @@ namespace WebCards.Controllers
                         }
                     }
                 }
-                Response.Headers.Add("Refresh", "15");
+                Response.Headers.Add("Refresh", "30");
                 ViewData["player"] = player;
                 ViewData["partita"] = partita;
                 ViewData["player_aversari"] = player_aversari;
