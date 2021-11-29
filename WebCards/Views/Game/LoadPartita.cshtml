@@ -11,20 +11,25 @@
 
 @model WebCards.Models.Giocatori
 
-<h1 style="text-align:center;">♠ Chi sei tra questi giocatori? ♠</h1>
-<br>
-<center>
-    <div id="container">
-        @using (Html.BeginForm("LoadPartita", "Game", FormMethod.Post))
-        {
-            @foreach(var item in listaGiocatroi)
-            {
-                @Html.RadioButtonFor(m => m.Rowguid,$"{item.Rowguid}")
-                <label for="">@item.Nome</label><br>
-            }
-            <input type="submit" value="Submit">
-        }
-        <br>
-    </div>
-</center>
-@*https://localhost:44352/Giocatori/SelezioneGiocatore*@
+    <center>
+        <div>
+            <h1>♠ Chi sei tra questi giocatori? ♠</h1>
+            <br>
+
+            <div id="container">
+                @using (Html.BeginForm("LoadPartita", "Game", FormMethod.Post))
+                {
+                    @foreach (var item in listaGiocatroi)
+                    {
+
+                        @Html.RadioButtonFor(m => m.Rowguid, $"{item.Rowguid}")<label>@item.Nome</label><br />
+
+
+                    }
+
+                    <input type="submit" value="Submit">
+                }
+            </div>
+            <br>
+        </div>
+    </center>

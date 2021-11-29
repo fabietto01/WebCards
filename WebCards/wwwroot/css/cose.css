@@ -13,6 +13,7 @@ footer {
 
 container {
     color: white;
+    width:100%;
 }
 
 ul {
@@ -47,7 +48,7 @@ div[id=right] {
 }
 
 #container {
-    width: 90px;
+    width: 200px;
     border-radius: 10px;
     height: auto;
     background-color: #003300;
@@ -59,6 +60,8 @@ div [id="end"] {
     font-style:italic;
     text-align: right;
     }
+
+
 
 
 h3 {
@@ -80,7 +83,7 @@ h1 {
 p {
     color: white;
     text-align: justify;
-    font-size: 16px;
+    font-size: 18px;
     font-family: "High Tower Text","Times New Roman", Times, serif;
 }
 
