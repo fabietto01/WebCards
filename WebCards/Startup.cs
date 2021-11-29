@@ -25,10 +25,9 @@ namespace WebCards
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //creaiamo un servizo per usare il databse
             services.AddControllersWithViews();
-            //services.Add(new ServiceDescriptor(typeof(WebCarteContext), new WebCarteContext()));
-            services.AddDbContext<WebCarteContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
+            services.Add(new ServiceDescriptor(typeof(WebCarteContext), new WebCarteContext()));
 
 
         }

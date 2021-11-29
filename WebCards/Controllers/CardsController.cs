@@ -21,7 +21,6 @@ namespace WebCards.Controllers
             _context = context;
         }
 
-
         [HttpPost]
         [Route("Game/{idp:Guid}/{idg:Guid}/DrawPlayerDeck")]
         public IActionResult DrawPlayerDeck(Guid idp, Guid idg, DrawPlayerDeckModel drawPlayerDeckModel)
@@ -56,8 +55,9 @@ namespace WebCards.Controllers
         [Route("Game/{idp:Guid}/{idg:Guid}/DrawTableCard")]
         public IActionResult DrawTableCard(Guid idp, Guid idg, DrawTableCardModel drawTableCardModel)
         {
+            //nel caso di errore non fa nessuna azione ma non manda errore e ricarica pag come prima
             try
-            {
+            {   //scaricano info dal db tramite query
                 var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
                 var cartaIntavola = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaIntavola));
                 var cartaGiocatore = _context.Cartes.FirstOrDefault(m => m.Rowguid == Guid.Parse(drawTableCardModel.CartaSceltaMano));
@@ -73,9 +73,10 @@ namespace WebCards.Controllers
                         return Redirect($"/Game/{idp}/{idg}/Next");
                     }
                 }
-            }catch (Exception ex)
+            }catch (Exception)
             {
             }
+            // ritorna al controller Game, metodo Partita
             return Redirect($"/Game/{idp}/{idg}");
         }
 
@@ -85,7 +86,6 @@ namespace WebCards.Controllers
         {
             try
             {
-                _context.Manos.Load();
                 var tavolo = (from ta in _context.InTavolos
                               join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
                               where ta.ParitaId == idp
@@ -121,12 +121,11 @@ namespace WebCards.Controllers
                         }
                     }
                 }
-            } catch (Exception ex)
+            } catch (Exception)
             {
 
             }
             return Redirect($"/Game/{idp}/{idg}");
         }
-
     }
 }
