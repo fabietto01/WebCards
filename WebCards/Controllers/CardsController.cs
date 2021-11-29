@@ -45,7 +45,7 @@ namespace WebCards.Controllers
                     }
                 }
             }
-            catch (ArgumentNullException) 
+            catch (Exception) 
             { 
             }
             return Redirect($"/Game/{idp}/{idg}");

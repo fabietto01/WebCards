@@ -44,23 +44,32 @@ namespace WebCards.Controllers
         [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
-            byte x = 0;
-            if(Model.giocatori.Length == 1)
+            try
             {
-                string[] bot = new string[] {"Erika", "Fabio", "Marco V.", "Marco M.", "Simone", "Domenico"};
-                CreateGiocatore(Model.giocatori[0].Nome, id, ref x);
-                Random r = new Random();
-                int rInt = r.Next(0, 6);
-                CreateGiocatore(bot[rInt], id, ref x, true);
-            }
-            else{
-                foreach (var item in Model.giocatori)
+                byte x = 0;
+                if (Model.giocatori.Length == 1)
                 {
-                    CreateGiocatore(item.Nome, id, ref x);
+                    string[] bot = new string[] { "Erika", "Fabio", "Marco V.", "Marco M.", "Simone", "Domenico" };
+                    CreateGiocatore(Model.giocatori[0].Nome, id, ref x);
+                    Random r = new Random();
+                    int rInt = r.Next(0, 6);
+                    CreateGiocatore(bot[rInt], id, ref x, true);
                 }
+                else
+                {
+                    foreach (var item in Model.giocatori)
+                    {
+                        CreateGiocatore(item.Nome, id, ref x);
+                    }
+                }
+                _context.SaveChanges();
+                return Redirect($"/Game/{id}/Inizilizate");
             }
-            _context.SaveChanges();
-            return Redirect($"/Game/{id}/Inizilizate");
+            catch (Exception) 
+            {
+                return View(Model);
+            };
+            
         }
 
         public void CreateGiocatore(String nome, Guid idPartita, ref byte numero, bool bot = false )
@@ -103,25 +112,10 @@ namespace WebCards.Controllers
             }
             if (condizioniFinePartita(giocatori, giocatori[z], mazzo.Count))
             {
-                var vinciote = (from gi in giocatori
-                                join mp in _context.MazzoPersonales on gi.Rowguid equals mp.GiocatoreId
-                                where gi.PartiatId == idp
-                                group gi by gi.Nome into giGroup
-                                select new
-                                {
-                                    giocatori = giGroup.Key,
-                                    Count = giGroup.Count(),
-                                }).OrderByDescending(x => x.Count).First();
-
                 var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
                 partita.Finita = true;
                 _context.SaveChanges();
-                var ilvincitore = new WinnerWinnerChickenDinnerModel
-                {
-                    giocatori = vinciote.giocatori,
-                    count = vinciote.Count.ToString(),
-                };
-                return RedirectToAction("FinePartita", "game", ilvincitore);
+                return RedirectToAction("FinePartita", "game");
             }
             NextGiocatore(idp);
             return Redirect($"/Game/{idp}/{idg}");

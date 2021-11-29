@@ -129,11 +129,15 @@ namespace WebCards.Controllers
         {
             lock (_context.Manos)
             {
+                var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
+                if (partita.Finita)
+                {
+                    return RedirectToAction("FinePartita", "game");
+                }
                 _context.Manos.Load();
                 _context.Cartes.Load();
                 _context.InTavolos.Load();
                 _context.MazzoPersonales.Load();
-                var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
                 var player = (from pa in _partite
                               join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
                               where gi.Rowguid == idg && pa.Rowguid == idp
@@ -193,10 +197,24 @@ namespace WebCards.Controllers
             return Redirect($"/Game/{idp}/{model.Rowguid}");
         }
 
-
-        public IActionResult FinePartita(WinnerWinnerChickenDinnerModel model)
+        [Route("Game/FinePartita/{idp:Guid}/")]
+        public IActionResult FinePartita(Guid idp)
         {
-            return View(model);
+            var vinciote = (from gi in _context.Giocatoris
+                            join mp in _context.MazzoPersonales on gi.Rowguid equals mp.GiocatoreId
+                            where gi.PartiatId == idp
+                            group gi by gi.Nome into giGroup
+                            select new
+                            {
+                                giocatori = giGroup.Key,
+                                Count = giGroup.Count(),
+                            }).OrderByDescending(x => x.Count).First();
+            var ilvincitore = new WinnerWinnerChickenDinnerModel
+            {
+                giocatori = vinciote.giocatori,
+                count = vinciote.Count.ToString(),
+            };
+            return View(ilvincitore);
         }
 
       
