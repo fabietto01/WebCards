@@ -88,20 +88,34 @@ namespace WebCards.Controllers
                               join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
                               where ta.ParitaId == idp
                               select ca.Valore).ToList();
+                var giocatoriAversari = _context.Giocatoris.Where(m => m.Rowguid != idg && m.PartiatId == idp).ToList();
                 var giocatoreAttuale = _context.Giocatoris.FirstOrDefault(m => m.Rowguid == idg);
                 var cartaScelta = giocatoreAttuale.Manos.FirstOrDefault(m => m.CartaId == Guid.Parse(discardModel.CartaScelta)).Carta;
                 if (giocatoreAttuale.MyTurno)
                 {
                     if (!tavolo.Contains(cartaScelta.Valore))
                     {
+                        bool condizione = true;
                         foreach(var item in giocatoreAttuale.Manos)
                         {
-                            if (!tavolo.Contains(item.Carta.Valore))
+                            condizione = condizione && (!tavolo.Contains(item.Carta.Valore));
+
+                            foreach (var gi in giocatoriAversari)
                             {
-                                giocatoreAttuale.Scarta(cartaScelta, _context);
-                                _context.SaveChanges();
-                                return Redirect($"/Game/{idp}/{idg}/Next");
+                                try
+                                {
+                                    condizione = condizione && (item.Carta.Valore != gi.GetPrimaCartaMazzoPersonale().Valore);
+                                }
+                                catch (InvalidOperationException)
+                                {
+                                }
                             }
+                        }
+                        if (condizione)
+                        {
+                            giocatoreAttuale.Scarta(cartaScelta, _context);
+                            _context.SaveChanges();
+                            return Redirect($"/Game/{idp}/{idg}/Next");
                         }
                     }
                 }

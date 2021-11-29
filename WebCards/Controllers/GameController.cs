@@ -32,7 +32,7 @@ namespace WebCards.Controllers
 
         public IActionResult Index()
         {
-            ViewData["partite"] = _partite.Where(m => m.Finita == false).OrderBy(m => m.Datatime);
+            ViewData["partite"] = _partite.Where(m => m.Finita == false).OrderByDescending(m => m.Datatime);
             return View();
         }
 
@@ -159,7 +159,7 @@ namespace WebCards.Controllers
                     }
                 }
             }
-            Response.Headers.Add("Refresh", "30");
+            Response.Headers.Add("Refresh", "15");
             ViewData["player"] = player;
             ViewData["partita"] = partita;
             ViewData["player_aversari"] = player_aversari;
