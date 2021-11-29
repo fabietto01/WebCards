@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,7 @@ namespace WebCards.Controllers
         {
             try
             {
+                _context.Manos.Load();
                 var tavolo = (from ta in _context.InTavolos
                               join ca in _context.Cartes on ta.CarteIdId equals ca.Rowguid
                               where ta.ParitaId == idp
