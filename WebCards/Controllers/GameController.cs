@@ -86,7 +86,7 @@ namespace WebCards.Controllers
                 }
             }
             _context.SaveChanges();
-            for (int i = 0; i < 4 ; i++)
+            for (int i = 0; i < 4; i++)
             {
                 var intavolo = new InTavolo
                 {
@@ -125,47 +125,51 @@ namespace WebCards.Controllers
         }
 
         [Route("Game/{idp:Guid}/{idg:Guid}")]
-        public IActionResult Partita(Guid idp, Guid idg) 
+        public IActionResult Partita(Guid idp, Guid idg)
         {
-            _context.Manos.Load();
-            _context.Cartes.Load();
-            _context.InTavolos.Load();
-            _context.MazzoPersonales.Load();
-            var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
-            var player = (from pa in _partite
-                          join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
-                          where gi.Rowguid == idg && pa.Rowguid == idp
-                          select gi).FirstOrDefault();
-            var player_aversari = (from pa in _partite
-                                   join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
-                                   where gi.Rowguid != idg && pa.Rowguid == idp
-                                   select gi).ToList();
-            var mazzo = (from mm in _context.Mazzos
-                         where mm.PartitaId == idp 
-                         select mm).ToList();
-            if (mazzo.Count > 0)
+            lock (_context)
             {
-                foreach (var item in partita.Giocatoris)
+                _context.Manos.Load();
+                _context.Cartes.Load();
+                _context.InTavolos.Load();
+                _context.MazzoPersonales.Load();
+                var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
+                var player = (from pa in _partite
+                              join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
+                              where gi.Rowguid == idg && pa.Rowguid == idp
+                              select gi).FirstOrDefault();
+                var player_aversari = (from pa in _partite
+                                       join gi in _context.Giocatoris on pa.Rowguid equals gi.PartiatId
+                                       where gi.Rowguid != idg && pa.Rowguid == idp
+                                       select gi).ToList();
+                var mazzo = (from mm in _context.Mazzos
+                             where mm.PartitaId == idp
+                             select mm).ToList();
+                if (mazzo.Count > 0)
                 {
-                    if (item.Manos.Count == 0)
+                    foreach (var item in partita.Giocatoris)
                     {
-                        for (int i = 0; i < 3; i++)
+                        if (item.Manos.Count == 0)
                         {
-                            //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
-                            item.add_mano(mazzo.First().CarteId, _context);
-                            _context.Mazzos.Remove(mazzo.First());
-                            mazzo.RemoveAt(0);
+                            for (int i = 0; i < 3; i++)
+                            {
+                                //il carte id in realta e una sistaza carte e un bag che non so come risolvere import da databese fatto male
+                                item.add_mano(mazzo.First().CarteId, _context);
+                                _context.Mazzos.Remove(mazzo.First());
+                                mazzo.RemoveAt(0);
+                            }
                         }
                     }
                 }
+                Response.Headers.Add("Refresh", "15");
+                ViewData["player"] = player;
+                ViewData["partita"] = partita;
+                ViewData["player_aversari"] = player_aversari;
+                _context.SaveChanges();
+                return View();
             }
-            Response.Headers.Add("Refresh", "15");
-            ViewData["player"] = player;
-            ViewData["partita"] = partita;
-            ViewData["player_aversari"] = player_aversari;
-            _context.SaveChanges();
-            return View(); 
         }
+   
 
 
         [Route("Game/Load/{idp:Guid}/")]

@@ -37,7 +37,6 @@ namespace WebCards.Controllers
             {
                 giocatori = new Giocatori[(int)nuermo_giocatori]
             };
-            ViewBag.id = id;
             return View(arr_giocaotri);
         }
 

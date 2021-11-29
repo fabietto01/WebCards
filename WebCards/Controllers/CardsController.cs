@@ -124,7 +124,7 @@ namespace WebCards.Controllers
 
             }
             return Redirect($"/Game/{idp}/{idg}");
-
         }
+
     }
 }
