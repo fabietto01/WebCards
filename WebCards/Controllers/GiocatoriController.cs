@@ -51,7 +51,7 @@ namespace WebCards.Controllers
                 string[] bot = new string[] {"Erika", "Fabio", "Marco V.", "Marco M.", "Simone", "Domenico"};
                 CreateGiocatore(Model.giocatori[0].Nome, id, ref x);
                 Random r = new Random();
-                int rInt = r.Next(0, 7);
+                int rInt = r.Next(0, 6);
                 CreateGiocatore(bot[rInt], id, ref x, true);
             }
             else{
