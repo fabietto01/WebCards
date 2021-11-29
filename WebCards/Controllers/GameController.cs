@@ -159,7 +159,7 @@ namespace WebCards.Controllers
                 var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
                 if (partita.Finita)
                 {
-                    return RedirectToAction("FinePartita", "game");
+                    return Redirect($"/Game/FinePartita/{partita.Rowguid}"); ;
                 }
 
                 //se non è finita, carico

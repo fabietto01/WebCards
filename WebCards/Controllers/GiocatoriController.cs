@@ -129,7 +129,7 @@ namespace WebCards.Controllers
                 var partita = _partite.FirstOrDefault(m => m.Rowguid == idp);
                 partita.Finita = true;
                 _context.SaveChanges();
-                return RedirectToAction("FinePartita", "game");
+                return Redirect($"/Game/FinePartita/{partita.Rowguid}");
             }
             NextGiocatore(idp);
             return Redirect($"/Game/{idp}/{idg}");
