@@ -20,6 +20,7 @@ namespace WebCards.Controllers
 
         public HomeController(ILogger<HomeController> logger, WebCarteContext context)
         {
+            //passiamo il db
             _logger = logger;
             _context = context;
         }
@@ -30,6 +31,7 @@ namespace WebCards.Controllers
             return View();
         }
 
+        //decorato perchè accetta le richieste di tipo post, salvare cioè info nel server
         [HttpPost]
         public IActionResult Reset_db()
         {
@@ -94,6 +96,7 @@ namespace WebCards.Controllers
             return RedirectToAction("Index");
         }
 
+        //metodo per pagina visualizzazione in caso di errori
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

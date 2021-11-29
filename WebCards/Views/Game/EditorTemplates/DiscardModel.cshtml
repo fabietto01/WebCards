@@ -3,22 +3,26 @@
 *@
 @model WebCards.Models.DiscardModel
 
-
+@*BOTTONE PER SCARTARE CARTA SUL TAVOLO*@
 @{
+
+    //richiamo le viewdata
     var partita = ViewData["partita"] as Partite;
     var player = ViewData["player"] as Giocatori;
+
+    //per menù a tendina richiamo le carte della mia mano
     List<SelectListItem> listCarteItems= new List<SelectListItem>();
     foreach(var item in player.Manos)
     {
         listCarteItems.Add(new SelectListItem
-            {
-              Text = $"{item}",
-              Value = $"{item.CartaId}"
-            });
+        {
+            Text = $"{item}",
+            Value = $"{item.CartaId}"
+        });
     }
 }
 
-
+@*MENU A TENDINA EFFETTIVO*@
 <div>
     
         @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/Discard" }))

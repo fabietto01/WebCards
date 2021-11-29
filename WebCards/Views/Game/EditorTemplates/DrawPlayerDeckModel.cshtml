@@ -5,29 +5,38 @@
 @model WebCards.Models.DrawPlayerDeckModel
 
 @{
+
+    //BOTTONI PER RUBARE MAZZETTO AVVERSARI
+    //vai a richiamare le viewdata
     var player_aversari = ViewData["player_aversari"] as List<Giocatori>;
     var partita = ViewData["partita"] as Partite;
     var player = ViewData["player"] as Giocatori;
 
+    //per menù a tendina
     List<SelectListItem> listGiocatoriAversariItems= new List<SelectListItem>();
     foreach(var item in player_aversari)
     {
+        //passiamo nomi degli avversari
         listGiocatoriAversariItems.Add(new SelectListItem
-            {
-              Text = $"{item}",
-              Value = $"{item.Rowguid}"
-            });
+        {
+            Text = $"{item}",
+            Value = $"{item.Rowguid}"
+        });
     }
+
+    //torna la mia mano che contiene la carta con cui voglio rubare quel mazzetto
     List<SelectListItem> listCarteItems= new List<SelectListItem>();
     foreach(var item in player.Manos)
     {
         listCarteItems.Add(new SelectListItem
-            {
-              Text = $"{item}",
-              Value = $"{item.CartaId}"
-            });
+        {
+            Text = $"{item}",
+            Value = $"{item.CartaId}"
+        });
     }
 }
+
+@*MENU A TENDINA EFFETTIVI*@
 
 <div class="text-mossegiocatore">
     <body1>

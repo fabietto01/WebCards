@@ -7,11 +7,14 @@
 @model WebCards.Models.DrawTableCardModel
 
 @{
+    //BOTTONE PER PRENDERE CARTA DAL TAVOLO
+    //richiamo le viewdata
     var partita = ViewData["partita"] as Partite;
     var player = ViewData["player"] as Giocatori;
 
-    List<SelectListItem> listCarteTavoloItems= new List<SelectListItem>();
-    foreach(var item in partita.InTavolos)
+    //per menù a tendina carte sul tavolo
+    List<SelectListItem> listCarteTavoloItems = new List<SelectListItem>();
+    foreach (var item in partita.InTavolos)
     {
         listCarteTavoloItems.Add(new SelectListItem
         {
@@ -19,18 +22,21 @@
             Value = $"{item.CarteIdId}"
         });
     }
-    List<SelectListItem> listCarteItems= new List<SelectListItem>();
-    foreach(var item in player.Manos)
+
+    //carte nella mia mano
+    List<SelectListItem> listCarteItems = new List<SelectListItem>();
+    foreach (var item in player.Manos)
     {
         listCarteItems.Add(new SelectListItem
-            {
-              Text = $"{item}",
-              Value = $"{item.CartaId}"
-            });
+        {
+            Text = $"{item}",
+            Value = $"{item.CartaId}"
+        });
     }
 
 }
 
+@*MENU' A TENDINA EFFETTIVI*@
 <div>
     <body2>
         @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"/Game/{partita.Rowguid}/{player.Rowguid}/DrawTableCard" }))

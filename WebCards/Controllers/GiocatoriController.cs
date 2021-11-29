@@ -29,14 +29,19 @@ namespace WebCards.Controllers
             _context = context;
         }
 
+        //reindirizzato da GameController 
         [Route("User/{id:Guid}/create")]
         public IActionResult Inizializa_giocatori(Guid id)
         {
+            //recupero il numero giocatori scritto in Game-index
             var nuermo_giocatori = _partite.FirstOrDefault(m => m.Rowguid == id).NumeroGiocatori;
+            //creo modello con dentro array giocatori con numero corrispondente all'input ma di valore null
             var arr_giocaotri = new ArrayGiocatoriModel
             {
+                //int perchè database restituisce byte, quindi cast
                 giocatori = new Giocatori[(int)nuermo_giocatori]
             };
+            //vado a restituire il modello
             return View(arr_giocaotri);
         }
 
@@ -45,10 +50,12 @@ namespace WebCards.Controllers
         public IActionResult Inizializa_giocatori(ArrayGiocatoriModel Model , Guid id)
         {
             try
-            {
+            {   //serve per conteggio giocatori, gestire i turni e definire il giocatore specifico
                 byte x = 0;
+
+                // entra se partita 1v1
                 if (Model.giocatori.Length == 1)
-                {
+                {   
                     string[] bot = new string[] { "Erika", "Fabio", "Marco V.", "Marco M.", "Simone", "Domenico" };
                     CreateGiocatore(Model.giocatori[0].Nome, id, ref x);
                     Random r = new Random();
@@ -56,15 +63,19 @@ namespace WebCards.Controllers
                     CreateGiocatore(bot[rInt], id, ref x, true);
                 }
                 else
-                {
+                {// se partita con più giocatori gli passo il modello giocatori
                     foreach (var item in Model.giocatori)
-                    {
+                    {   //per creare giocatori nel database
                         CreateGiocatore(item.Nome, id, ref x);
                     }
                 }
+
+                //torna nel GameController
                 _context.SaveChanges();
                 return Redirect($"/Game/{id}/Inizilizate");
             }
+
+            // se casini,restituisce model e ricarica la pagina come prima
             catch (Exception) 
             {
                 return View(Model);
@@ -72,10 +83,11 @@ namespace WebCards.Controllers
             
         }
 
+        //metodo creato a parte e poi richiamato dove serve (nb: bot = false nel parametro opzionale, se lo setti a true è bot)
         public void CreateGiocatore(String nome, Guid idPartita, ref byte numero, bool bot = false )
-        {
+        {   //nuovo giocatore e lo assegni a g
             var g = new Giocatori
-            {
+            { //assegni valore alle proprietà al singolo giocatore
                 Rowguid = Guid.NewGuid(),
                 Nome = nome,
                 PartiatId = idPartita,
@@ -84,8 +96,10 @@ namespace WebCards.Controllers
                 
             };
             _context.Giocatoris.Add(g);
-            numero++; 
+            numero++;
+            //viene chiamato nel metodo sopra 3 volte
         }
+
 
         [Route("Game/{idp:Guid}/{idg:Guid}/Next")]
         public IActionResult NextGiocatore(Guid idp, Guid idg)

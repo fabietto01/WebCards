@@ -14,37 +14,48 @@
 <div class="text-center">
 
     <div class="container">
-      <div class="row row-cols-4">
-        @foreach (var item in player_aversari)
-        {
-        <div id="player-@item.Nome" class="col" >
-                <h1>@if (item.MyTurno) {<i>&#8226</i>}@item.Nome</h1>
-                <div>
-                @foreach (var carta in item.Manos)
-                {
-                    <label>Carta coperta - </label>
-                }
-            </div>
-            <div>
-                @try
-                {
-                    <label>(@item.MazzoPersonales.Count() Carte nel mazzetto) @item.GetPrimaCartaMazzoPersonale().Valore/@item.GetPrimaCartaMazzoPersonale().Seme</label>
-                }
-                catch (InvalidOperationException)
-                {
-                }
-            </div>
+
+        @*modulabile fino a 4*@
+        <div class="row row-cols-4">
+            @foreach (var item in player_aversari)
+            {
+                //crea mani giocatori con nome giocatore e carte nel mazzetto
+                <div id="player-@item.Nome" class="col">
+                    <h1>
+                        @if (item.MyTurno)
+                        {<i>&#8226</i>}@item.Nome
+                    </h1>
+                    <div>
+                        @foreach (var carta in item.Manos)
+                        {
+                            <label>Carta coperta - </label>
+                        }
+                    </div>
+                    <div>
+                        @try
+                        {
+                            <label>(@item.MazzoPersonales.Count() Carte nel mazzetto) @item.GetPrimaCartaMazzoPersonale().Valore/@item.GetPrimaCartaMazzoPersonale().Seme</label>
+                        }
+
+                        @*serve se non ha nessuna carta*@
+                        catch (InvalidOperationException)
+                        {
+                        }
+                    </div>
+                </div>
+            }
         </div>
-        }
-      </div>
     </div>
     <br></br>
+
     <div class="container">
+
+        @*bootstrap colore rosso, carte sul tavolo*@
         <h1 class="text-danger">carte in tavolo</h1>
         <div class="row justify-content-md-center">
-            @foreach(var item in partita.InTavolos)
+            @foreach (var item in partita.InTavolos)
             {
-                <div id="carteInTavola" class="col-md-auto" >
+                <div id="carteInTavola" class="col-md-auto">
                     <p class="text-danger">@item.CarteId.ToString()</p>
                 </div>
             }
@@ -52,16 +63,22 @@
     </div>
 
     <div>
-        <h1>@if (player.MyTurno) {<i>&#8226</i>}@player.Nome</h1>
+        <h1>
+            @if (player.MyTurno)
+            {<i>&#8226</i>}@player.Nome
+        </h1>
+        @*carte del giocatore di turno visualizzate in mezzo alla schermata*@
         <div id="carte_player">
             <p class="center">
                 @foreach (var carta in player.Manos)
                 {
-                <label>@carta.ToString() - </label>
+                    <label>@carta.ToString() - </label>
                 }
             </p>
         </div>
         <div>
+
+            @*non dà errore se non ha carte nel mazzetto*@
             @try
             {
                 <p class="center">(@player.MazzoPersonales.Count() Carte nel mazzo) @player.GetPrimaCartaMazzoPersonale().Valore/@player.GetPrimaCartaMazzoPersonale().Seme</p>
@@ -71,11 +88,13 @@
             }
         </div>
         <br /><br />
-        <div>  
-            @Html.EditorFor(m=>m.DrawPlayerDeckModel, null, "", null)
-            @Html.EditorFor(m=>m.DrawTableCardModel,  null, "", null)
-            @Html.EditorFor(m=>m.DiscardModel,  null, "", null)
-        </div> 
+        <div>@*va a richiamare le EditorTemplate corrispondenti
+                 per naming convention hanno lo stesso nome del modello 
+                 così l'editor sa quale prendere*@
+            @Html.EditorFor(m => m.DrawPlayerDeckModel, null, "", null)
+            @Html.EditorFor(m => m.DrawTableCardModel, null, "", null)
+            @Html.EditorFor(m => m.DiscardModel, null, "", null)
+        </div>
     </div>
 
 
